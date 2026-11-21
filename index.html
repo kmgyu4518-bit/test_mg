@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>내 가계부</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#dashboard">내 가계부</a>
+  <nav class="tabs" aria-label="주요 메뉴">
+    <a href="#dashboard" data-tab="dashboard">대시보드</a>
+    <a href="#transactions" data-tab="transactions">거래 내역</a>
+    <a href="#upload" data-tab="upload">엑셀 올리기</a>
+    <a href="#settings" data-tab="settings">설정</a>
+  </nav>
+  <div class="month" id="monthWrap" hidden>
+    <label for="month">기준월</label>
+    <select id="month"></select>
+  </div>
+</header>
+<main id="view" class="wrap"></main>
+<footer class="foot">올린 엑셀은 이 브라우저 안에서만 읽고 저장합니다. 서버로 전송되지 않습니다.</footer>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script src="calc.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
