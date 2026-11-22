@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko" data-v="a">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#141210">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="아메카지">
+<title>아메카지 아카이브</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday hobby archive, a collector's field manual
+   IDEA a military spec label / quartermaster stock card: stencil type, OD green, khaki stock, signal red stamp
+   PICTURE a true-scale heritage timeline band (1880-1970) with every item stamped on it, clickable
+   COLOUR OD green band, khaki stock ground, signal red accent; night: dark olive
+   TYPE Big Shoulders Stencil Display + IBM Plex Sans KR
+   LAYOUT title band with tab nav, timeline full width, then card grids; phone stacks, timeline scrolls sideways */
+:root{color-scheme:light dark;
+--bg:light-dark(#ebe6d6,#12150e);
+--panel:light-dark(#f8f5ec,#1c2116);
+--ink:light-dark(#1b1d15,#e8e3d1);
+--mute:light-dark(#5b5d4c,#a7a68f);
+--line:light-dark(#cfc8b2,#343b2a);
+--od:light-dark(#3d4a28,#27301b);
+--odink:#eee9d6;
+--red:light-dark(#b8281c,#e0533f);
+--chip:light-dark(#ddd6c1,#2a3121)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Noto Sans KR",system-ui,sans-serif;overflow-x:clip}
+a{color:inherit}
+.band{padding:clamp(20px,3.5vw,48px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+header{background:var(--od);color:var(--odink)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px}
+h1{font:800 clamp(40px,7vw,64px)/1 var(--disp);letter-spacing:.01em;margin:0}
+.sub{margin:6px 0 0;opacity:.85}
+.stamp{border:2px solid var(--odink);padding:6px 12px;font:700 13px/1.3 "Noto Sans KR";transform:rotate(-2deg);opacity:.9}
+nav{position:sticky;top:0;z-index:5;background:var(--navbg);color:var(--navink);border-bottom:1px solid var(--line)}
+.navw{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 max(5vw,16px);flex-wrap:wrap}
+.logo{font:400 22px/1 var(--disp);text-decoration:none;color:var(--navink);letter-spacing:.02em;padding:12px 0;white-space:nowrap}
+#nav{display:flex;gap:2px;overflow-x:auto}
+#nav a{flex:none;color:var(--navink);text-decoration:none;padding:12px 14px;font-weight:700;border-bottom:3px solid transparent;min-height:44px}
+#nav a[aria-current=page]{border-color:var(--red)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
+input,select{font:16px "Noto Sans KR",sans-serif;color:var(--ink);background:var(--panel);border:1.5px solid var(--line);border-radius:6px;padding:10px 12px;min-height:44px}
+input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+#q{flex:1 1 260px}
+.chip{font:500 14px "Noto Sans KR";border:1.5px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:8px 14px;min-height:40px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+h2{font:800 clamp(30px,4vw,40px)/1.05 var(--disp);margin:0 0 4px}
+.lead{color:var(--mute);margin:0 0 18px;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.pic{margin:-16px -16px 4px;height:150px;border-radius:8px 8px 0 0;background:linear-gradient(var(--chip),color-mix(in srgb,var(--chip),var(--ink) 6%));display:grid;place-items:center;border-bottom:1px solid var(--line)}
+.pic svg{height:128px;width:auto;filter:drop-shadow(0 4px 0 #0000001a)}
+.used{font-size:14px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 10px}
+.bh{display:flex;align-items:center;gap:12px}
+.patch{width:64px;height:44px;flex:none}
+.card h3{margin:0;font-size:18px;line-height:1.3}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:13px;color:var(--mute)}
+.tag{background:var(--chip);border-radius:4px;padding:2px 8px;font-size:13px;color:var(--ink);white-space:nowrap}
+.tag.r{background:var(--red);color:#fff}
+.card p{margin:0}
+.card ul{margin:0;padding-left:18px}
+.card .rep{font-size:14px;color:var(--mute)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;flex-wrap:wrap}
+.star{background:none;border:1.5px solid var(--line);border-radius:6px;min-width:44px;min-height:40px;font-size:18px;cursor:pointer;color:var(--mute)}
+.star[aria-pressed=true]{color:var(--red);border-color:var(--red)}
+.lnk{font-weight:700;color:var(--red);text-decoration:none}
+.lnk:hover{text-decoration:underline}
+.fig{position:relative;height:300px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.tlscroll{overflow-x:auto}
+.tlscroll svg{display:block;height:300px}
+svg text{paint-order:stroke;stroke:var(--panel);stroke-width:4px}
+.pin{cursor:pointer}
+.pin:hover rect,.pin:focus rect{fill:var(--red)}
+.pin:hover text.lb,.pin:focus text.lb{fill:#fff;stroke:none}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px;margin-top:20px}
+dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:6px 14px}
+dt{font-weight:700}
+dd{margin:0;color:var(--mute)}
+.sec{display:none}
+.sec.on{display:block}
+.grp{margin:22px 0 10px;font:800 24px/1.1 var(--disp)}
+.news{display:grid;gap:10px}
+.nitem{display:grid;grid-template-columns:7.5em 1fr;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.ndate{font:800 20px/1.1 var(--disp);color:var(--red);white-space:nowrap}
+.nitem h3{margin:0 0 4px;font-size:17px}
+.nitem p{margin:0;color:var(--mute);font-size:15px}
+.note{font-size:13px;color:var(--mute);margin-top:14px}
+.empty{padding:28px;text-align:center;color:var(--mute);border:1.5px dashed var(--line);border-radius:8px}
+form.add{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:8px;margin-top:10px}
+.btn{font:700 15px "Noto Sans KR";background:var(--red);color:#fff;border:0;border-radius:6px;min-height:44px;padding:0 16px;cursor:pointer}
+.del{font-size:13px;background:none;border:0;color:var(--mute);cursor:pointer;text-decoration:underline;min-height:32px}
+footer{background:var(--od);color:var(--odink);font-size:14px}
+@media(max-width:600px){.nitem{grid-template-columns:1fr;gap:4px}dl{grid-template-columns:1fr}dd{margin-bottom:6px}.stamp{display:none}}
+@media(prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card.hit{animation:hit 1.2s}@keyframes hit{0%{box-shadow:0 0 0 4px var(--red)}100%{box-shadow:0 0 0 0 transparent}}}
+.hp .pic{margin:0;height:100%;background:none;border:0;border-radius:0}
+.hp .pic svg{height:100%;width:100%;filter:none}
+.hp{aspect-ratio:120/112}
+.cat{font:inherit;color:inherit;border:0;padding:0;cursor:pointer;text-align:left;background:none}
+</style>
+<style>:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+/* VOICE editorial magazine; IDEA a fashion editorial spread; PICTURE A-2 on a burnt-orange panel; COLOUR near-black, bone, burnt orange; TYPE Anton + Instrument Serif italic + Noto Sans KR; LAYOUT split hero, then a four-tile edit strip */
+:root{color-scheme:light dark;--bg:light-dark(#f1ebe1,#121110);--panel:light-dark(#fbf8f2,#1c1a18);--ink:light-dark(#141210,#efe9df);--mute:light-dark(#6a625a,#a69d92);--line:light-dark(#ddd3c4,#34302b);--chip:light-dark(#e8dfd1,#2a2724);--red:#d4561d;--navbg:#141210;--navink:#f1ebe1;--od:#141210;--odink:#f1ebe1;--disp:"Anton",sans-serif}
+nav{border-bottom-color:#2a2724}
+h2{font-weight:400;text-transform:uppercase;letter-spacing:.01em}
+.heroA{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);background:#141210;color:#f1ebe1}
+.ha-txt{padding:clamp(28px,5vw,72px) max(5vw,16px);display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.heroA h1{font:400 clamp(64px,10.5vw,148px)/.88 "Anton",sans-serif;margin:0;text-transform:uppercase}
+.ser{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400}
+.ha-txt .ser{font-size:clamp(28px,3.4vw,46px);line-height:1.05;margin:0;color:#e9a27c}
+.stats{display:flex;flex-wrap:wrap;gap:8px 28px;font-size:15px;color:#cfc6b8}
+.stats b{display:block;font:400 40px/1 "Anton",sans-serif;color:#f1ebe1}
+.ha-pic{background:var(--red);display:grid;place-items:center;padding:clamp(24px,4vw,56px);min-height:420px;position:relative}
+.ha-pic .hp{width:min(100%,460px)}
+.ha-cap{position:absolute;left:20px;bottom:16px;font:400 15px/1.3 "Instrument Serif",serif;font-style:italic;color:#141210;font-size:20px}
+.edit{background:var(--bg)}
+.edit h2{margin-bottom:16px;font-family:"Instrument Serif",serif;font-style:italic;text-transform:none;font-size:clamp(34px,4.4vw,52px)}
+.cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.cat.a{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column}
+.cat.a .hp{background:var(--chip);padding:14px;aspect-ratio:1}
+.cat.a .cl{font:400 26px/1 "Anton",sans-serif;text-transform:uppercase;padding:14px 14px 2px}
+.cat.a .ck{font-size:14px;color:var(--mute);padding:0 14px 14px}
+.cat.a:hover .hp{background:var(--red)}
+@media(max-width:760px){.heroA{grid-template-columns:1fr}.ha-pic{min-height:320px}.cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<nav aria-label="챕터"><div class="navw"><a class="logo" href="#heritage">AMEKAJI ARCHIVE</a><div id="nav">
+<a href="#heritage">1 Heritage</a><a href="#items">2 Items</a><a href="#brands">3 Brands</a><a href="#shops">4 Shops</a><a href="#news">5 News</a></div></div></nav>
+<section class="heroA"><div class="ha-txt"><h1>Amekaji<br>Archive.</h1>
+<p class="ser">Military, denim<br>&amp; western.</p>
+<div class="stats"><span><b data-count="items"></b>아이템</span><span><b data-count="brands"></b>브랜드</span><span><b data-count="shops"></b>판매처</span></div></div>
+<div class="ha-pic"><div class="hp" data-pic="a2"></div><span class="ha-cap">Type A-2, 1931</span></div></section>
+<section class="band edit"><div class="wrap"><h2>The Edit.</h2><div class="cats"><button class="cat a" type="button" data-cat="밀리터리"><div class="hp" data-pic="ma1"></div><span class="cl">Military</span><span class="ck">밀리터리</span></button><button class="cat a" type="button" data-cat="데님"><div class="hp" data-pic="t3"></div><span class="cl">Denim</span><span class="ck">데님</span></button><button class="cat a" type="button" data-cat="웨스턴"><div class="hp" data-pic="westsh"></div><span class="cl">Western</span><span class="ck">웨스턴</span></button><button class="cat a" type="button" data-cat="부츠·악세사리"><div class="hp" data-pic="875"></div><span class="cl">Boots</span><span class="ck">부츠·악세사리</span></button></div></div></section>
+
+<main class="band"><div class="wrap">
+
+<section id="s-heritage" class="sec">
+  <h2>Heritage</h2>
+  <p class="lead">원형이 태어난 순서입니다. 지금 복각되는 아이템들의 원본이 언제 등장했는지 실제 시간 간격대로 놓았습니다. 아이템을 누르면 도감 카드로 이동합니다. ~ 표시는 연도가 시기 단위로만 알려진 것입니다.</p>
+  <div class="tlscroll fig" id="tlbox"><svg id="tl" role="img" aria-label="아이템 등장 연표"></svg></div>
+  <div class="two">
+    <div class="card"><h3>아메카지와 아메리칸 캐주얼</h3>
+      <p>아메리칸 캐주얼은 20세기 중반 미국의 군복, 노동복, 대학생 옷차림 자체입니다. 아메카지는 이를 일본식으로 줄여 부르는 말로, 일본 브랜드가 원단·봉제·부자재까지 그 시절 원본을 연구해 다시 만드는 복각(레플리카) 문화를 함께 가리킵니다.</p>
+      <p>세 갈래로 보면 정리가 쉽습니다. 밀리터리(플라이트·덱·필드 재킷), 워크(데님·커버올·부츠), 웨스턴(스냅 셔츠·부츠·실버 주얼리).</p></div>
+    <div class="card"><h3>오사카 5</h3>
+      <p>1980~90년대 일본 복각 데님을 연 브랜드 묶음입니다. 스튜디오 다치산, 드님, 에비수, 웨어하우스, 풀카운트. 구형 셔틀 직기로 짠 셀비지 데님을 되살린 것이 출발점입니다.</p>
+      <p class="rep">이후 오카야마 고지마 지역(모모타로 등)과 헤비 온스 계열(아이언하트, 사무라이)로 확장됐습니다.</p></div>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>용어 사전</h3><dl id="gloss"></dl></div>
+</section>
+
+<section id="s-items" class="sec">
+  <h2>Items</h2>
+  <p class="lead">원본의 쓰임새, 알아보는 포인트, 대표 복각 브랜드를 정리했습니다.</p>
+  <div class="tools"><input id="qi" type="search" placeholder="예: N-1, 가죽, 1943, 버즈릭슨" aria-label="아이템 검색"><span id="ci"></span></div>
+  <div class="grid" id="gi"></div>
+</section>
+
+<section id="s-brands" class="sec">
+  <h2>Brands</h2>
+  <p class="lead">국가와 장르로 걸러 보세요. 검색 링크는 구글 검색으로 열립니다.</p>
+  <div class="tools"><input id="qb" type="search" placeholder="예: 토요, 데님, 부츠, 웨스턴" aria-label="브랜드 검색"><span id="cb"></span></div>
+  <div class="grid" id="gb"></div>
+</section>
+
+<section id="s-shops" class="sec">
+  <h2>Shops</h2>
+  <p class="lead">국내 편집샵, 해외 온라인 직구처, 중고 플랫폼 순서입니다. 주소·영업시간은 바뀔 수 있으니 방문 전 인스타그램이나 홈페이지를 확인하세요.</p>
+  <div class="tools"><input id="qs" type="search" placeholder="예: 웨어하우스, 런던, 직구" aria-label="판매처 검색"><span id="cs"></span></div>
+  <div id="gs"></div>
+  <div class="card" style="margin-top:20px"><h3>내 샵 추가</h3>
+    <p class="rep">추가한 샵은 이 브라우저에만 저장됩니다.</p>
+    <form class="add" id="addf">
+      <input id="an" placeholder="샵 이름" required aria-label="샵 이름">
+      <input id="au" placeholder="https://..." type="url" aria-label="주소">
+      <select id="ar" aria-label="지역"><option>국내</option><option>일본</option><option>미국</option><option>영국</option><option>중고·리셀</option></select>
+      <input id="ad" placeholder="메모 (취급 브랜드 등)" aria-label="메모">
+      <button class="btn" type="submit">추가</button>
+    </form>
+  </div>
+</section>
+
+<section id="s-news" class="sec">
+  <h2>News</h2>
+  <p class="lead">기준일 2026.11.22 · 최근 확인한 소식이며 최신 날짜가 위에 있습니다.</p>
+  <div class="news" id="gn"></div>
+  <p class="note">이 페이지는 실시간으로 갱신되지 않습니다. 새 소식은 요청하시면 확인해서 추가합니다.</p>
+</section>
+
+</div></main>
+<footer class="band"><div class="wrap">개인 아카이브용 페이지 · 브랜드 설명과 연도는 공개 자료 기준이며, 연도가 불확실한 항목은 시기로만 적었습니다.</div></footer>
+
+<script>
+{
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const G=n=>'https://www.google.com/search?q='+encodeURIComponent(n);
+const P=n=>'https://www.pinterest.com/search/pins/?q='+encodeURIComponent(n);
+const U=[['번개장터',n=>'https://m.bunjang.co.kr/search/products?q='+encodeURIComponent(n)],['메루카리',n=>'https://jp.mercari.com/search?keyword='+encodeURIComponent(n)],['eBay',n=>'https://www.ebay.com/sch/i.html?_nkw='+encodeURIComponent(n)]];
+const used=n=>'<div class="used">중고 매물: '+U.map(([l,f])=>`<a class="lnk" href="${f(n)}" target="_blank" rel="noopener">${l} ↗</a>`).join(' ')+'</div>';
+let fav=[];try{fav=JSON.parse(localStorage.getItem('amk_fav')||'[]')}catch(e){}
+let mine=[];try{mine=JSON.parse(localStorage.getItem('amk_shops')||'[]')}catch(e){}
+const save=()=>{try{localStorage.setItem('amk_fav',JSON.stringify(fav));localStorage.setItem('amk_shops',JSON.stringify(mine))}catch(e){}};
+
+const ITEMS=[
+{id:'a2',n:'Type A-2',k:'A-2 플라이트 재킷',c:'밀리터리',y:1931,e:'1931년 채용',o:'미 육군항공대',s:'조종사용 가죽 재킷. 2차대전 미군 조종사의 상징처럼 남았습니다.',p:['말가죽 또는 염소가죽','울 니트 커프·밑단','어깨 견장, 스냅으로 고정하는 칼라','계약 제조사마다 라벨·패턴 차이'],r:['Buzz Rickson\'s','The Real McCoy\'s','Toys McCoy','Eastman']},
+{id:'b3',n:'Type B-3',k:'B-3 시어링 재킷',c:'밀리터리',y:1935,ap:1,e:'1930년대',o:'미 육군항공대',s:'고공 폭격기 승무원용 양털 재킷. 비여압 기체의 혹한을 버티기 위한 옷입니다.',p:['안쪽 전체가 양털(시어링)','큰 칼라와 가죽 벨트 스트랩','두껍고 무거운 볼륨'],r:['Buzz Rickson\'s','The Real McCoy\'s','Eastman']},
+{id:'s501',n:'S501XX',k:'대전 모델 501',c:'데님',y:1942,ap:1,e:'2차대전 중',o:'리바이스',s:'전시 물자 통제로 사양을 줄인 501. 간소화(Simplified)의 S가 붙습니다.',p:['뒷주머니 아큐에이트를 페인트로 표시','범용 도넛·월계수 버튼','일부 리벳 생략'],r:['Levi\'s Vintage Clothing','Warehouse','Full Count','Studio D\'Artisan']},
+{id:'tanker',n:'Tanker Jacket',k:'탱커 재킷',c:'밀리터리',y:1942,ap:1,e:'2차대전',o:'미 육군 기갑부대',s:'전차병용 겨울 작업 재킷. 걸리는 곳이 없도록 짧고 단순하게 만들었습니다.',p:['립 니트 칼라·커프·밑단','울 블랭킷 안감','사선 핸드포켓'],r:['Buzz Rickson\'s','The Real McCoy\'s','Toys McCoy']},
+{id:'n1',n:'N-1 Deck Jacket',k:'N-1 덱 재킷',c:'밀리터리',y:1943,ap:1,e:'1943년경',o:'미 해군',s:'갑판 근무용 방한 재킷. 초기형은 네이비, 후기형은 카키입니다.',p:['고밀도 코튼 정글클로스','알파카 파일 안감','초기 네이비와 후기 카키의 패턴·디테일 차이'],r:['Buzz Rickson\'s','The Real McCoy\'s','Iron Heart','Houston']},
+{id:'m43',n:'M-1943',k:'M-43 필드 재킷',c:'밀리터리',y:1943,e:'1943년',o:'미 육군',s:'겹쳐 입는 레이어링 개념을 도입한 야전 상의. M-51, M-65로 이어지는 계보의 시작입니다.',p:['4포켓','허리 드로코드','탈착 후드'],r:['Buzz Rickson\'s','The Real McCoy\'s']},
+{id:'westsh',n:'Snap Western Shirt',k:'스냅 웨스턴 셔츠',c:'웨스턴',y:1946,e:'1946년',o:'록마운트 랜치웨어',s:'록마운트(1946년 창업)가 스냅 단추 웨스턴 셔츠를 대중화한 것으로 알려져 있습니다.',p:['진주빛 스냅 단추','톱니 모양 소우투스 포켓 플랩','앞뒤 요크 절개'],r:['Rockmount','Rainbow Country','RRL','Sugar Cane']},
+{id:'g1',n:'G-1',k:'G-1 플라이트 재킷',c:'밀리터리',y:1947,e:'1947년 명칭 부여',o:'미 해군 항공',s:'해군 조종사 가죽 재킷. 이전 M-422 계열을 정리해 G-1이라는 이름이 붙었습니다.',p:['염소가죽','무톤(양털) 칼라','등판 바이스윙 주름'],r:['Buzz Rickson\'s','The Real McCoy\'s','Eastman']},
+{id:'13mwz',n:'Wrangler 13MWZ',k:'랭글러 카우보이 컷',c:'웨스턴',y:1947,e:'1947년',o:'랭글러',s:'로데오 카우보이를 위해 만든 진. 말 위에서 편하도록 설계했습니다.',p:['지퍼 플라이','높은 허리, 평평한 리벳','브로큰 트윌 데님'],r:['Wrangler','Rainbow Country']},
+{id:'m51',n:'M-51 Parka',k:'M-51 피시테일 파카',c:'밀리터리',y:1951,e:'1951년',o:'미 육군',s:'뒤가 갈라진 피시테일 밑단의 야전 파카. 영국 모드족 옷으로도 유명합니다.',p:['피시테일 밑단','탈착 라이너','큰 후드'],r:['Buzz Rickson\'s','The Real McCoy\'s']},
+{id:'875',n:'Red Wing 875',k:'레드윙 아이리시 세터',c:'부츠·악세사리',y:1952,e:'1952년',o:'레드윙',s:'사냥용으로 나온 목토(모카신 토) 작업 부츠. 아메카지 부츠의 기본형입니다.',p:['모카신 스티치 토','흰색 크레이프 솔','오로 러셋 계열 가죽'],r:['Red Wing']},
+{id:'t2',n:'507XX (2nd)',k:'2세대 데님 재킷',c:'데님',y:1953,e:'1953년',o:'리바이스',s:'1세대 다음 모델. 주머니가 양쪽으로 늘었습니다.',p:['양쪽 플랩 가슴 포켓','허리 사이드 어저스터','앞판 주름(플리츠)'],r:['Levi\'s Vintage Clothing','Warehouse','Sugar Cane','Full Count']},
+{id:'ma1',n:'MA-1',k:'MA-1 플라이트 재킷',c:'밀리터리',y:1955,ap:1,e:'1950년대',o:'미 공군',s:'제트기 시대의 나일론 플라이트 재킷. 가볍고 젖어도 잘 마릅니다.',p:['나일론 겉감, 세이지 그린','니트 칼라','후기형의 오렌지 안감'],r:['Buzz Rickson\'s','The Real McCoy\'s']},
+{id:'n3b',n:'N-3B',k:'N-3B 파카',c:'밀리터리',y:1956,ap:1,e:'1950년대',o:'미 공군',s:'극한지 근무용 파카. 조종석에 앉기 좋게 기장이 짧습니다.',p:['퍼 트림 후드','엉덩이를 덮는 기장','두꺼운 충전재'],r:['Buzz Rickson\'s','The Real McCoy\'s']},
+{id:'t3',n:'557XX (3rd)',k:'3세대 트러커 재킷',c:'데님',y:1962,e:'1962년',o:'리바이스',s:'지금 데님 재킷의 원형인 트러커 스타일.',p:['V자 스티치','뾰족한 포켓 플랩','몸판이 짧고 슬림'],r:['Levi\'s Vintage Clothing','Warehouse','Full Count']},
+{id:'m65',n:'M-65',k:'M-65 필드 재킷',c:'밀리터리',y:1965,e:'1965년',o:'미 육군',s:'베트남전 시기 야전 재킷. 영화 택시 드라이버로도 유명합니다.',p:['칼라 속 수납 후드','라이너 부착 단추','4포켓'],r:['Buzz Rickson\'s','The Real McCoy\'s']},
+{id:'501',n:'Levi\'s 501',k:'리바이스 501',c:'데님',y:1890,e:'1890년 품번 부여',o:'리바이스',s:'모든 청바지의 원형. 1890년 501이라는 품번이 붙었습니다.',p:['버튼 플라이와 리벳','뒷주머니 아큐에이트 스티치','구형 셔틀 직기의 셀비지'],r:['Levi\'s Vintage Clothing','Warehouse','Studio D\'Artisan','Full Count']},
+{id:'perf',n:'Schott Perfecto',k:'퍼펙토 라이더 재킷',c:'워크',y:1928,e:'1928년',o:'쇼트',s:'바이커 재킷의 원형. 지퍼를 앞판에 처음 쓴 모터사이클 재킷으로 꼽힙니다.',p:['비대칭 사선 지퍼','넓은 라펠','벨트 달린 허리'],r:['Schott','Freewheelers','The Real McCoy\'s']},
+{id:'storm',n:'Lee Storm Rider',k:'리 스톰 라이더',c:'데님',y:1933,ap:1,e:'1930년대',o:'리',s:'담요 안감을 넣은 방한 데님 재킷.',p:['코듀로이 칼라','블랭킷 안감','레이지 S 스티치 없는 단정한 앞판'],r:['Lee','Warehouse']},
+{id:'t1',n:'506XX (1st)',k:'1세대 데님 재킷',c:'데님',e:'1950년대 초까지',o:'리바이스',s:'가슴 주머니 하나짜리 초기 재킷.',p:['한쪽 가슴 포켓','등판 신치백','앞판 플리츠'],r:['Levi\'s Vintage Clothing','Warehouse','Oni Denim','Full Count']},
+{id:'pea',n:'Pea Coat',k:'피코트',c:'밀리터리',e:'19세기부터',o:'미 해군',s:'갑판 수병용 더블 코트.',p:['두꺼운 멜톤 울','더블 브레스트','앵커 버튼'],r:['Buzz Rickson\'s','The Real McCoy\'s','Schott']},
+{id:'chambray',n:'USN Chambray Shirt',k:'해군 샴브레이 셔츠',c:'밀리터리',e:'2차대전 전후',o:'미 해군',s:'수병 작업복 셔츠. 아메카지 셔츠의 기본입니다.',p:['얇고 질긴 샴브레이 원단','체인스티치 봉제','단순한 패치 포켓'],r:['Buzz Rickson\'s','The Real McCoy\'s','Sugar Cane','Warehouse']},
+{id:'chore',n:'Chore Coat / Coverall',k:'초어 코트 · 커버올',c:'워크',e:'20세기 초',o:'철도·공장 노동자',s:'작업용 겉옷. 데님, 덕 캔버스, 히코리 스트라이프 원단이 많습니다.',p:['큰 패치 포켓 3~4개','도넛·체인지 버튼','트리플 스티치'],r:['Carhartt','Post O\'Alls','Freewheelers','Orslow']},
+{id:'hickory',n:'Hickory Stripe',k:'히코리 스트라이프',c:'워크',e:'20세기 초',o:'철도 노동자',s:'흰 줄과 인디고 줄이 번갈아 있는 작업복 원단. 오버롤과 캡에 많이 쓰입니다.',p:['가는 세로 줄무늬','튼튼한 트윌 조직'],r:['Freewheelers','Warehouse','Sugar Cane']},
+{id:'eng',n:'Engineer Boots',k:'엔지니어 부츠',c:'부츠·악세사리',e:'1930년대',o:'철도·공사 현장',s:'끈 없이 버클 스트랩으로 고정하는 작업 부츠. 이후 바이커 부츠로 자리 잡았습니다.',p:['발등·발목 버클 스트랩','긴 샤프트','두꺼운 솔'],r:['Wesco','Lone Wolf Boots','Red Wing']},
+{id:'cboot',n:'Cowboy Boots',k:'카우보이 부츠',c:'웨스턴',e:'19세기 말부터',o:'목장 카우보이',s:'등자에 걸기 좋은 굽과 뾰족한 앞코의 승마 부츠.',p:['높은 굽','장식 스티치 샤프트','당겨 신는 풀 스트랩'],r:['Lucchese','Tony Lama']},
+{id:'hat',n:'Cowboy Hat',k:'카우보이 햇',c:'웨스턴',e:'1865년부터',o:'스텟슨',s:'스텟슨이 1865년 창업 후 만든 챙 넓은 펠트 모자가 원형으로 꼽힙니다.',p:['펠트 소재','넓은 챙','크라운 크리즈'],r:['Stetson']},
+{id:'silver',n:'Navajo · Hopi Silver',k:'나바호·호피 실버 주얼리',c:'웨스턴',e:'19세기 말부터',o:'미국 남서부 원주민',s:'은과 터키석을 쓰는 수공 주얼리. 웨스턴과 아메카지 스타일링의 마무리입니다.',p:['콘초 벨트, 뱅글, 반지','터키석','스탬프 문양'],r:['Goro\'s','First Arrow\'s','빈티지 원주민 제작품']},
+{id:'loop',n:'Loopwheel Sweat',k:'루프휠 스웨트셔츠',c:'워크',e:'20세기 중반 방식',o:'미국 스웨트 원형',s:'느리게 짜는 구형 편직기로 만든 원단. 옆선 봉제가 없는 튜브 형태로 나옵니다.',p:['옆선 없는 몸판','V 가제트','부드럽고 탄탄한 촉감'],r:['Warehouse','The Real McCoy\'s','Wonder Looper','Buzz Rickson\'s']},
+{id:'wallet',n:'Trucker Wallet & Chain',k:'트러커 월렛 · 월렛 체인',c:'부츠·악세사리',e:'20세기 중반',o:'트럭 운전사·바이커',s:'긴 가죽 지갑을 체인으로 벨트에 연결하는 스타일.',p:['두꺼운 가죽','체인 클립'],r:['Flat Head','Freewheelers']},
+{id:'bandana',n:'Bandana',k:'반다나',c:'부츠·악세사리',e:'19세기부터',o:'노동자·카우보이',s:'먼지를 막고 땀을 닦던 사각 면 스카프.',p:['페이즐리 문양','목에 두르거나 뒷주머니에'],r:['Warehouse','The Real McCoy\'s']}
+];
+
+const BRANDS=[
+['Buzz Rickson\'s','버즈릭슨','JP','밀리터리','토요 엔터프라이즈의 밀리터리 복각 브랜드. 윌리엄 깁슨 컬렉션 운영.'],
+['The Real McCoy\'s','리얼맥코이','JP','밀리터리·스포츠','플라이트 재킷부터 스웨트까지 원단·부자재 고증이 강한 브랜드. Joe McCoy, Buco 라인.'],
+['Toys McCoy','토이즈맥코이','JP','밀리터리·무비','스티브 맥퀸 등 영화·아이콘을 테마로 한 복각.'],
+['Freewheelers','프리휠러스','JP','워크·모터사이클','1900~40년대 미국 워크·모터사이클 의류 재해석.'],
+['Warehouse','웨어하우스','JP','데님·워크','1995년 설립. 오사카 5. 빈티지 데님 원단 재현의 기준.'],
+['Studio D\'Artisan','스튜디오 다치산','JP','데님','1979년 설립. 오사카 5의 시작점.'],
+['Denime','드님','JP','데님','오사카 5. 현재 웨어하우스가 전개.'],
+['Evisu','에비수','JP','데님','오사카 5. 뒷주머니 페인트 갈매기 로고.'],
+['Full Count','풀카운트','JP','데님','오사카 5. 짐바브웨 코튼 데님.'],
+['Sugar Cane','슈가케인','JP','데님·워크','토요 엔터프라이즈 브랜드. 데님, 워크셔츠.'],
+['Whitesville','화이츠빌','JP','티셔츠','토요 엔터프라이즈의 기본 티셔츠 라인.'],
+['Lone Wolf Boots','론울프','JP','부츠','토요 엔터프라이즈의 워크 부츠.'],
+['Pure Blue Japan','퓨어블루재팬','JP','데님','1997년 설립. 슬럽 원단과 진한 인디고.'],
+['Momotaro Jeans','모모타로','JP','데님','오카야마 고지마의 재팬블루 계열 브랜드.'],
+['Iron Heart','아이언하트','JP','데님·헤비','2003년 설립. 21oz 등 헤비 온스 데님과 플란넬.'],
+['Samurai Jeans','사무라이진즈','JP','데님·헤비','오사카. 헤비 온스 데님.'],
+['Oni Denim','오니데님','JP','데님','저장력 직조의 거친 원단.'],
+['The Flat Head','플랫헤드','JP','데님·가죽','데님, 가죽 소품, 월렛.'],
+['Pherrow\'s','페로우즈','JP','데님·워크','아메리칸 캐주얼 복각과 프린트 티.'],
+['Trophy Clothing','트로피클로딩','JP','데님·워크','도쿄 기반 데님·워크웨어.'],
+['Jelado','제라도','JP','워크·빈티지','1930~40년대 미국 감성 워크웨어.'],
+['Rainbow Country','레인보우컨트리','JP','웨스턴','웨스턴 셔츠, 웨스턴 무드 전문.'],
+['Boncoura','본쿠라','JP','데님','구형 직기 데님, 슬림한 실루엣.'],
+['Kapital','캐피탈','JP','데님·크래프트','오카야마. 보로·패치워크 등 장인 기법.'],
+['orSlow','오어슬로우','JP','워크·밀리터리','빈티지 원형을 현대 핏으로.'],
+['TCB Jeans','TCB','JP','데님','1950~60년대 데님 원형 재현.'],
+['Post O\'Alls','포스트 오버롤즈','JP','워크','오오츠카 타케시가 미국에서 시작한 워크웨어.'],
+['Wonder Looper','원더루퍼','JP','스웨트','헤비웨이트 루프휠 스웨트.'],
+['Goro\'s','고로즈','JP','주얼리','도쿄 하라주쿠. 이글·페더 실버 주얼리.'],
+['Levi\'s Vintage Clothing','LVC','US','데님','리바이스 아카이브 복각 라인.'],
+['Lee','리','US','데님','1889년 창업. 스톰 라이더, 101.'],
+['Wrangler','랭글러','US','웨스턴·데님','카우보이 컷 13MWZ(1947).'],
+['Carhartt','칼하트','US','워크','1889년 창업. 덕 캔버스 초어 코트.'],
+['Red Wing','레드윙','US','부츠','1905년 창업. 875, 엔지니어, 벡맨.'],
+['White\'s Boots','화이츠','US','부츠','스포캔. 스모크점퍼 등 핸드메이드 부츠.'],
+['Wesco','웨스코','US','부츠','1918년 창업. 엔지니어 부츠의 대표.'],
+['Chippewa','치페와','US','부츠','1901년 창업. 엔지니어·로거 부츠.'],
+['Danner','대너','US','부츠','1932년 창업. 마운틴·워크 부츠.'],
+['Filson','필슨','US','아웃도어','1897년 창업. 크루저, 틴클로스.'],
+['Pendleton','펜들턴','US','웨스턴·울','울 셔츠와 원주민 문양 블랭킷.'],
+['Schott','쇼트','US','가죽','1913년 창업. 퍼펙토(1928), 피코트.'],
+['Stetson','스텟슨','US','웨스턴','1865년 창업. 카우보이 햇의 원형.'],
+['Lucchese','루케세','US','웨스턴 부츠','1883년 창업. 텍사스 카우보이 부츠.'],
+['Tony Lama','토니라마','US','웨스턴 부츠','1911년 창업. 엘파소 카우보이 부츠.'],
+['Rockmount','록마운트','US','웨스턴','1946년 창업. 스냅 웨스턴 셔츠.'],
+['RRL','더블알엘','US','빈티지·웨스턴','랄프 로렌의 빈티지 아메리카나 라인(1993).'],
+['Mister Freedom','미스터 프리덤','US','워크·밀리터리','LA. 빈티지 소재 기반 시즌 컬렉션.'],
+['Champion','챔피언','US','스웨트','1919년 창업. 리버스 위브.'],
+['Tellason','텔라슨','US','데님','샌프란시스코 데님.'],
+['3sixteen','쓰리식스틴','US','데님','뉴욕 데님·워크웨어.'],
+['Nigel Cabourn','나이젤 카본','UK','밀리터리·아웃도어','빈티지 아카이브 기반 밀리터리.'],
+['Eastman Leather','이스트맨','UK','가죽','플라이트 재킷 가죽 복각.'],
+['Anatomica','아나토미카','FR','클래식·워크','파리. 정통 워크·클래식 셀렉트.'],
+['Viberg','바이버그','CA','부츠','캐나다 수제 워크 부츠.'],
+['Outstanding & Co','아웃스탠딩','KR','밀리터리·데님','아메리칸 캐주얼 기반 국내 브랜드. 26SS M-65·샴브레이, FW26 필드·플라이트 재킷 등 밀리터리 아카이브 라인.'],
+['Eastlogue','이스트로그','KR','밀리터리·아웃도어','2011년 론칭. 세계 각지의 복식을 재해석. 브룩스브라더스·데상트 등과 협업.'],
+['VDR','비디알','KR','워크·밀리터리·데님','2015년 설립, 퍼머넌트(이태원). 오카야마 14oz 셀비지 Lot.101 등 데님과 워크·밀리터리.'],
+['Uniform Bridge','유니폼브릿지','KR','밀리터리·아웃도어','클래식·빈티지·밀리터리 기반의 합리적 가격대 브랜드.'],
+['Espionage','에스피오나지','KR','밀리터리','밀리터리·아웃도어 기반. MA-1, M-65, N-1 재해석. 브론슨 등 입점.'],
+['Khakis2000','카키스','KR','워크·밀리터리','편집숍에서 시작해 자체 제작으로 확장. 헤비 스웨트, 피시테일 파카 등.'],
+['Prismworks','프리즘웍스','KR','입문용 아메카지','밀리터리·라이딩·워크웨어를 합리적 가격에 전개.'],
+['Acapella Clothing','아카펠라 클로딩','KR','가죽','국내 복각 가죽 재킷 브랜드. 직영 공장 생산.'],
+['Bronson MFG','브론슨','CN','밀리터리·데님','중국 미군 빈티지 복각 브랜드. 1936 셀비지 진 등 저가 복각으로 유명.'],
+['Red Cloud & Co','레드클라우드','CN','데님','선양 기반. 신장 면 셀비지와 구형 미싱 사용. R423xx(1947 501 기반).'],
+['YMCLKY','와이엠씨엘케이와이','CN','밀리터리','저가 밀리터리 복각. 탱커 재킷 등.'],
+['Old Joe','올드조','JP','빈티지 워크','빈티지 무드 워크·밀리터리. 모드맨 등 국내 입고.'],
+['Colimbo','콜림보','JP','아웃도어·워크','아웃도어·헌팅 빈티지 재해석.'],
+['Black Sign','블랙사인','JP','빈티지','1920~30년대 감성의 워크·코트.'],
+['Cushman','쿠쉬맨','JP','워크·스포츠','합리적 가격의 아메카지 기본 아이템.'],
+['Houston','휴스턴','JP','밀리터리','합리적 가격의 밀리터리 복각. N-1 등.'],
+['Engineered Garments','엔지니어드 가먼츠','US','워크·밀리터리','뉴욕. 미국 워크·밀리터리 원형의 재해석.'],
+['Alpha Industries','알파 인더스트리','US','밀리터리','1959년 창업. 미군에 M-65 등 납품.']
+];
+const CN={KR:'한국',JP:'일본',CN:'중국',US:'미국',UK:'영국',FR:'프랑스',CA:'캐나다'};
+
+const SHOPS=[
+{g:'국내',n:'세미베이스먼트 제너럴 스토어',u:'https://semibasement.com/',a:'서울 강남구 신사동 (지하 1층)',b:'Jelado, Samurai Jeans, Trophy Clothing, Rainbow Country, Sugar Cane, Cushman, Raggy Clothing',m:'회기동 빈티지 숍 세미베이스먼트(semibasement.co.kr)와는 다른 곳입니다.'},
+{g:'국내',n:'조스개러지',u:'https://unipair.com/category/joes-garage/257/',a:'서울 강남구 도산대로45길 18-10',b:'Toys McCoy, Warehouse, Pherrow\'s, Studio D\'Artisan, Boncoura',m:'온라인은 유니페어 몰 안에서 운영. 인스타 @joesgarage_clothingstore'},
+{g:'국내',n:'랜덤워크',u:'https://www.randomwalk.co.kr/',a:'서울 강남구 언주로164길 40 (도산공원)',b:'Anatomica, Warehouse, orSlow, TCB Jeans, Tellason, Nigel Cabourn, Westoveralls',m:'평일 11:00~20:00, 주말 12:30~20:00'},
+{g:'국내',n:'모드맨',u:'https://mode-man.com/',a:'홍대 플래그십, 더현대 매장',b:'Warehouse, Buzz Rickson\'s, Sugar Cane, Full Count, The Flat Head, Pherrow\'s, Viberg, Post O\'Alls, Red Wing',m:'주간 입고 예정 브랜드를 스케줄 게시판에 공개',x:['입고 스케줄','https://mode-man.com/category/schedule/851/']},
+{g:'일본',n:'히노야 (Hinoya)',u:'https://hinoya.shop/en/',a:'도쿄 우에노 아메요코',b:'Pure Blue Japan, Oni Denim, Boncoura, Denime, Momotaro',m:'해외 배송 FedEx·DHL. 주말·일본 공휴일 주문은 다음 영업일 출고'},
+{g:'일본',n:'오카야마 데님',u:'https://www.okayamadenim.com/',a:'도쿄 메구로 아오바다이',b:'일본 데님·헤비 티셔츠 셀렉트',m:'150달러 이상 해외 특급배송 무료, 미만은 25달러'},
+{g:'미국',n:'Self Edge',u:'https://www.selfedge.com/',a:'샌프란시스코, 뉴욕, LA, 포틀랜드, 멕시코, 오스틴',b:'Iron Heart, Pure Blue Japan, Samurai, Strike Gold',m:'2006년 설립. 별주 협업 진이 많음'},
+{g:'미국',n:'Standard & Strange',u:'https://standardandstrange.com/',a:'버클리, 산타페, 뉴욕',b:'일본 셀비지 데님, 부츠, 아메리카나 워크웨어',m:'2012년 오클랜드에서 시작'},
+{g:'영국',n:'Clutch Cafe',u:'https://clutchcafe.com/',a:'런던',b:'일본 아메카지 브랜드 (Buzz Rickson\'s, Real McCoy\'s 등)',m:'일본 잡지 Clutch와 연계된 매장'},
+{g:'영국',n:'Rivet & Hide',u:'https://rivetandhide.com/',a:'런던, 맨체스터',b:'희소 데님과 일본 브랜드',m:''},
+{g:'중고·리셀',n:'KREAM',u:'https://kream.co.kr/brands/buzz-ricksons',a:'온라인',b:'버즈릭슨 등 브랜드관',m:'새 상품 리셀 시세 확인용'},
+{g:'중고·리셀',n:'번개장터',u:'https://m.bunjang.co.kr/search/products?q=%EB%A6%AC%EC%96%BC%EB%A7%A5%EC%BD%94%EC%9D%B4',a:'온라인',b:'중고 직거래',m:'링크는 리얼맥코이 검색 결과'},
+{g:'중고·리셀',n:'후루츠패밀리',u:'https://fruitsfamily.com/',a:'온라인',b:'빈티지·세컨핸드',m:''}
+];
+const SG=['국내','일본','미국','영국','중고·리셀'];
+
+const NEWS=[
+['2026.11.19','Heddels 블랙프라이데이 세일 정리','진, 부츠, 셔츠, 재킷 할인을 매일 갱신하는 목록. 직구 타이밍 확인용.','https://www.heddels.com/sale-finder/shortlist/'],
+['2026.11.16','아이언하트 FW26 N-1 덱 재킷 입고','버즈릭슨, 리얼맥코이, 휴스턴 N-1과 가격·판매처 비교. 리얼맥코이 네이비 N-1(MJ21105)은 초기형 고증으로 소개.','https://denimhunters.com/n1-deck-jackets/'],
+['2026.11.12','Palomo 1953 Ernest & Edmund 부츠','엘살바도르 수제 부츠 신작.','https://www.heddels.com/news/new-releases/'],
+['2026.11.11','Franklin & Poe × 3sixteen 17oz 넵 셀비지 진','10주년 협업 데님.','https://www.heddels.com/news/new-releases/'],
+['2026.11.09','원더루퍼 헤비웨이트 루프휠 신작','두꺼운 루프휠 코튼 스웨트 라인 확대.','https://www.heddels.com/news/new-releases/'],
+['2026.11월호','Lightning 11월호: 스카잔 특집','리얼맥코이 수버니어 재킷, 버즈릭슨 밀리터리×스카잔 기사 수록. 일본 잡지.','https://www.cdjapan.co.jp/product/NEOBK-3249857'],
+['2026.11','A New Medium FW26 2차 드롭','사시코, 커지, 해리스 트위드 아우터.','https://www.heddels.com/'],
+['2026.10.27','LVC 1970s 646 진','콘밀즈 화이트오크 데드스톡 원단, 일본 제작. 리바이스 레드탭 회원 드롭.','https://www.levi.com/US/en_US/features/drops'],
+['매주','모드맨 주간 입고 예정 브랜드','국내 정식 수입 입고 일정. 원하는 브랜드 입고 주차 확인용.','https://mode-man.com/category/schedule/851/']
+];
+
+const GLOSS=[['셀비지','구형 셔틀 직기로 짠 원단의 마감된 가장자리. 바지 밑단 안쪽 흰 선으로 보입니다.'],['생지(로우)','세탁·가공을 하지 않은 데님. 입으면서 페이드가 생깁니다.'],['원워시','한 번 세탁해 풀기를 빼고 수축시킨 상태.'],['산포라이즈드','미리 수축 방지 가공을 한 원단. 언산포는 세탁 시 많이 줄어듭니다.'],['로프 염색','실을 밧줄처럼 묶어 인디고에 반복 담그는 염색. 속이 흰 실이 남아 페이드가 선명합니다.'],['온스(oz)','데님 1평방야드 무게. 14oz 이상이면 두꺼운 편입니다.'],['체인스티치','고리 모양으로 이어지는 봉제. 밑단 로핑 페이드를 만듭니다.'],['호스하이드','말가죽. 단단하고 길들수록 광이 납니다.'],['정글클로스','N-1 등에 쓰인 고밀도 코튼 원단.'],['루프휠','느린 구형 편직기. 옆선 없는 스웨트 원단을 만듭니다.'],['복각(레플리카)','원본을 해체·분석해 원단, 봉제, 부자재까지 재현하는 것.']];
+
+/* Illustrations: own drawings of each garment type */
+const SK='stroke="#00000040" stroke-width="1.2" stroke-linejoin="round"';
+const dark=(c,a=.22)=>`color-mix(in srgb,${c},#000 ${a*100}%)`;
+const lite=(c,a=.3)=>`color-mix(in srgb,${c},#fff ${a*100}%)`;
+function top(o){
+  const c=o.c,L=o.long?104:o.short?78:86,cuff=o.long?L-8:L-4;
+  const half=`<path d="M36 30 L20 36 L10 ${cuff} L24 ${cuff+2} L32 52 Z" fill="${c}" ${SK}/>`+(o.rib?`<path d="M10 ${cuff-7} L24 ${cuff-5} L24 ${cuff+2} L10 ${cuff} Z" fill="${dark(c)}"/>`:'');
+  let s=half+`<g transform="translate(120 0) scale(-1 1)">${half}</g>`;
+  s+=`<path d="M36 30 Q46 24 52 22 L68 22 Q74 24 84 30 L86 ${L} L34 ${L} Z" fill="${c}" ${SK}/>`;
+  s+=`<path d="M60 22 L68 22 Q74 24 84 30 L86 ${L} L60 ${L} Z" fill="#000" opacity=".08"/>`;
+  if(o.stripe)for(let x=36;x<86;x+=5)s+=`<line x1="${x}" x2="${x}" y1="26" y2="${L}" stroke="#fff" stroke-opacity=".55" stroke-width="1.4"/>`;
+  if(o.rib)s+=`<rect x="34" y="${L-7}" width="52" height="7" fill="${dark(c)}"/>`;
+  if(o.yoke)s+=`<path d="M36 34 Q60 ${o.yoke==='w'?46:38} 84 34" fill="none" stroke="${o.yc||dark(c,.3)}" stroke-width="${o.yoke==='w'?2.5:1.5}"/>`;
+  (o.pk||[]).forEach(([x,y,w,h,f])=>{s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1.5" fill="${dark(c,.12)}" stroke="${dark(c,.35)}" stroke-width="1"/>`+(f?`<path d="M${x-1} ${y} L${x+w+1} ${y} L${x+w+1} ${y+5} ${f==='v'?`L${x+w/2} ${y+9} `:''}L${x-1} ${y+5} Z" fill="${dark(c,.2)}"/>`:'')});
+  if(o.cl==='zip')s+=`<line x1="60" x2="60" y1="26" y2="${L}" stroke="${o.zc||'#c9c1a8'}" stroke-width="2"/>`;
+  if(o.cl==='btn'||o.cl==='snap')for(let y=32;y<L-4;y+=10)s+=`<circle cx="60" cy="${y}" r="${o.cl==='snap'?2.4:1.8}" fill="${o.cl==='snap'?'#f4efe3':dark(c,.5)}" stroke="#0004" stroke-width=".6"/>`;
+  if(o.cl==='dbl')for(let y=40;y<L-12;y+=14)s+=`<circle cx="52" cy="${y}" r="2.6" fill="#1a1a1a"/><circle cx="68" cy="${y}" r="2.6" fill="#1a1a1a"/>`;
+  if(o.cl==='diag')s+=`<line x1="54" x2="74" y1="30" y2="${L}" stroke="#c9c9c9" stroke-width="2"/>`;
+  if(o.col==='point')s+=`<path d="M50 23 L60 38 L46 36 Z M70 23 L60 38 L74 36 Z" fill="${o.cc||lite(c,.15)}" ${SK}/>`;
+  if(o.col==='fur')s+=`<path d="M42 27 Q50 20 60 24 Q70 20 78 27 L72 42 Q60 34 48 42 Z" fill="${o.cc||'#cdb68e'}" ${SK}/>`;
+  if(o.col==='rib')s+=`<path d="M48 23 Q60 31 72 23 L72 27 Q60 35 48 27 Z" fill="${dark(c)}"/>`;
+  if(o.col==='lapel')s+=`<path d="M50 23 L58 44 L42 40 Z M70 23 L62 44 L78 40 Z" fill="${dark(c,.15)}" ${SK}/>`;
+  if(o.col==='hood')s+=`<path d="M40 30 Q38 8 60 6 Q82 8 80 30 Q72 22 60 22 Q48 22 40 30 Z" fill="${c}" ${SK}/>`+(o.fur?`<path d="M42 28 Q40 10 60 9 Q80 10 78 28" fill="none" stroke="#b9a37c" stroke-width="5" stroke-linecap="round"/>`:'');
+  if(o.vg)s+=`<path d="M56 24 L60 32 L64 24 Z" fill="${dark(c)}"/>`;
+  if(o.saw)s+=`<path d="M40 44 L48 44 L44 49 Z M72 44 L80 44 L76 49 Z" fill="#f4efe3"/>`;
+  return s;
+}
+function pants(o){
+  const c=o.c;let s=`<path d="M36 12 L84 12 L88 106 L66 106 L60 44 L54 106 L32 106 Z" fill="${c}" ${SK}/><path d="M60 12 L84 12 L88 106 L66 106 L60 44 Z" fill="#000" opacity=".08"/>`;
+  s+=`<rect x="36" y="12" width="48" height="6" fill="${dark(c,.15)}"/><path d="M40 18 Q46 30 52 18 M68 18 Q74 30 80 18" fill="none" stroke="${o.st||'#d9a441'}" stroke-width="1.2"/>`;
+  s+=`<line x1="60" x2="60" y1="18" y2="40" stroke="${o.st||'#d9a441'}" stroke-width="1"/>`;
+  [[41,20],[79,20]].forEach(([x,y])=>s+=`<circle cx="${x}" cy="${y}" r="1.4" fill="#c58a3a"/>`);
+  if(o.cuff)s+=`<rect x="32" y="100" width="22" height="6" fill="${lite(c,.15)}"/><rect x="66" y="100" width="22" height="6" fill="${lite(c,.15)}"/><line x1="32" x2="54" y1="103" y2="103" stroke="#f4efe3" stroke-width="1.2"/><line x1="66" x2="88" y1="103" y2="103" stroke="#f4efe3" stroke-width="1.2"/>`;
+  if(o.bib)s=`<path d="M44 0 L44 14 M76 0 L76 14" stroke="${dark(c)}" stroke-width="4"/><rect x="42" y="0" width="36" height="16" fill="${c}" ${SK}/>`+s;
+  if(o.stripe)for(let x=34;x<88;x+=5)s+=`<line x1="${x}" x2="${x}" y1="12" y2="106" stroke="#fff" stroke-opacity=".5" stroke-width="1.4"/>`;
+  return s;
+}
+function boot(o){
+  const c=o.c;let s='';
+  if(o.t==='cow')s=`<path d="M48 10 L80 10 L78 72 L104 84 Q110 90 104 96 L40 96 L38 104 L28 104 L30 72 Z" fill="${c}" ${SK}/><path d="M52 24 Q64 34 76 24 M52 40 Q64 50 76 40" fill="none" stroke="${lite(c,.35)}" stroke-width="1.5"/><rect x="28" y="96" width="12" height="8" fill="#2a1a10"/>`;
+  else if(o.t==='moc')s=`<path d="M34 46 L74 46 L76 70 Q100 72 104 84 L104 94 L30 94 Z" fill="${c}" ${SK}/><path d="M72 72 Q86 70 100 82" fill="none" stroke="${dark(c,.35)}" stroke-width="1.4" stroke-dasharray="2 2"/><rect x="28" y="94" width="78" height="9" rx="2" fill="#efe6cf" ${SK}/>`+[52,58,64].map(y=>`<line x1="62" x2="74" y1="${y}" y2="${y}" stroke="#d9cfb5" stroke-width="1.5"/>`).join('');
+  else s=`<path d="M38 14 L76 14 L76 72 Q100 74 104 86 L104 96 L34 96 Z" fill="${c}" ${SK}/><rect x="36" y="20" width="42" height="5" fill="${dark(c,.3)}"/><rect x="64" y="18" width="8" height="9" fill="none" stroke="#c9c1a8" stroke-width="1.6"/><path d="M58 70 Q76 80 94 80" fill="none" stroke="${dark(c,.3)}" stroke-width="5"/><rect x="30" y="96" width="76" height="9" fill="#1a1a1a"/>`;
+  return s;
+}
+const misc={
+  hat:c=>`<ellipse cx="60" cy="78" rx="52" ry="14" fill="${dark(c,.15)}" ${SK}/><path d="M34 76 Q32 40 46 36 Q60 46 74 36 Q88 40 86 76 Z" fill="${c}" ${SK}/><rect x="34" y="66" width="52" height="7" fill="#3a2414"/>`,
+  silver:()=>`<circle cx="60" cy="60" r="34" fill="#c9cdd2" ${SK}/><circle cx="60" cy="60" r="26" fill="none" stroke="#9aa0a7" stroke-width="2" stroke-dasharray="3 4"/><circle cx="60" cy="60" r="12" fill="#3fa9a0" ${SK}/><rect x="10" y="56" width="16" height="8" fill="#5a3a26"/><rect x="94" y="56" width="16" height="8" fill="#5a3a26"/>`,
+  wallet:c=>`<rect x="30" y="34" width="54" height="72" rx="5" fill="${c}" ${SK}/><path d="M30 46 L84 46" stroke="${dark(c,.3)}" stroke-dasharray="3 2"/><circle cx="57" cy="40" r="3" fill="#c9cdd2"/>`+Array.from({length:9},(_,i)=>`<ellipse cx="${60+i*5}" cy="${30-Math.sin(i/2.6)*18}" rx="3.2" ry="2.2" fill="none" stroke="#b9bec4" stroke-width="1.6"/>`).join(''),
+  bandana:c=>`<path d="M60 10 L110 60 L60 110 L10 60 Z" fill="${c}" ${SK}/>`+Array.from({length:22},(_,i)=>{const a=i*2.4,r=8+i*1.8;return `<circle cx="${60+Math.cos(a)*r}" cy="${60+Math.sin(a)*r}" r="${2+(i%3)}" fill="#f4efe3" opacity=".85"/>`}).join('')+`<path d="M60 22 L98 60 L60 98 L22 60 Z" fill="none" stroke="#f4efe3" stroke-width="1.5"/>`
+};
+const OD='#6b6a3e',SAGE='#6f7a58',IND='#2f4a78',BRN='#6b3f24';
+const V={
+ a2:['t',{c:BRN,rib:1,col:'point',cl:'zip',pk:[[38,52,16,14,1],[66,52,16,14,1]]}],
+ b3:['t',{c:'#8a5a32',col:'fur',cl:'zip',short:1,pk:[[40,54,14,12]]}],
+ s501:['p',{c:IND,cuff:1}],
+ tanker:['t',{c:'#8a7f55',rib:1,col:'rib',cl:'zip',pk:[[38,56,12,14],[70,56,12,14]]}],
+ n1:['t',{c:'#9c8a5e',col:'fur',cc:'#e2d6bb',cl:'btn',pk:[[38,58,14,12],[68,58,14,12]]}],
+ m43:['t',{c:OD,col:'point',cl:'btn',long:1,pk:[[38,38,14,12,1],[68,38,14,12,1],[38,72,16,16,1],[66,72,16,16,1]]}],
+ westsh:['t',{c:'#8a2f2a',col:'point',cl:'snap',yoke:'w',yc:'#f4efe3',saw:1,rib:0,pk:[]}],
+ g1:['t',{c:'#5a3a26',rib:1,col:'fur',cl:'zip',pk:[[38,54,16,12,1],[66,54,16,12,1]]}],
+ '13mwz':['p',{c:'#2a4270',cuff:1,st:'#e0c27a'}],
+ m51:['t',{c:OD,col:'hood',cl:'zip',long:1,pk:[[38,70,16,16,1],[66,70,16,16,1]]}],
+ '875':['b',{c:'#a6602c',t:'moc'}],
+ t2:['t',{c:IND,col:'point',cl:'btn',zc:'#c58a3a',pk:[[40,34,14,12,1],[66,34,14,12,1]],rib:0}],
+ ma1:['t',{c:SAGE,rib:1,col:'rib',cl:'zip',pk:[[38,58,12,14],[70,58,12,14],[24,40,8,10]]}],
+ n3b:['t',{c:SAGE,col:'hood',fur:1,cl:'zip',pk:[[38,62,16,14,1],[66,62,16,14,1]]}],
+ t3:['t',{c:'#3a5a8c',col:'point',cl:'btn',short:1,pk:[[40,34,14,10,'v'],[66,34,14,10,'v']]}],
+ m65:['t',{c:OD,col:'point',cl:'zip',long:1,pk:[[38,38,14,12,1],[68,38,14,12,1],[38,72,16,16,1],[66,72,16,16,1]]}],
+ '501':['p',{c:IND,cuff:1}],
+ perf:['t',{c:'#232323',col:'lapel',cl:'diag',short:1,pk:[[40,54,14,4],[68,60,12,4]]}],
+ storm:['t',{c:IND,col:'point',cc:'#7a5232',cl:'btn',pk:[[40,36,14,12,1],[66,36,14,12,1]]}],
+ t1:['t',{c:'#26406c',col:'point',cl:'btn',pk:[[40,36,14,12,1]]}],
+ pea:['t',{c:'#24304a',col:'lapel',cl:'dbl',long:1,pk:[[38,70,4,16],[78,70,4,16]]}],
+ chambray:['t',{c:'#8aa3c6',col:'point',cl:'btn',yoke:1,pk:[[40,40,13,13],[67,40,13,13]]}],
+ chore:['t',{c:'#a8743a',col:'point',cl:'btn',long:1,pk:[[40,36,14,12],[36,66,18,18],[66,66,18,18]]}],
+ hickory:['p',{c:'#34486e',bib:1,stripe:1,st:'#f4efe3'}],
+ eng:['b',{c:'#1f1f1f'}],
+ cboot:['b',{c:'#7a4a28',t:'cow'}],
+ hat:['m','hat','#b08a5a'],
+ silver:['m','silver'],
+ loop:['t',{c:'#9a9a94',rib:1,col:'rib',vg:1}],
+ wallet:['m','wallet','#5a3a26'],
+ bandana:['m','bandana','#b8281c']
+};
+function pic(id){
+  const v=V[id];if(!v)return'';
+  const body=v[0]==='t'?top(v[1]):v[0]==='p'?pants(v[1]):v[0]==='b'?boot(v[1]):misc[v[1]](v[2]);
+  return `<div class="pic"><svg viewBox="0 0 120 112" aria-hidden="true">${body}</svg></div>`;
+}
+const CC={KR:'#1f6f5c',CN:'#9a6b12',JP:'#b8281c',US:'#2f4a78',UK:'#3d4a28',FR:'#5a3a26',CA:'#7a4a28'};
+const patch=(n,co)=>{const ini=n.replace(/^The /,'').replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  return `<svg class="patch" viewBox="0 0 64 44" aria-hidden="true"><rect x="2" y="2" width="60" height="40" rx="6" fill="${CC[co]}"/><rect x="6" y="6" width="52" height="32" rx="4" fill="none" stroke="#f4efe3" stroke-width="1.4" stroke-dasharray="3 2.5"/><text x="32" y="29" text-anchor="middle" style="font-family:var(--disp)" font-weight="800" font-size="20" fill="#f4efe3">${esc(ini)}</text></svg>`};
+
+/* Glossary */
+document.getElementById('gloss').innerHTML=GLOSS.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join('');
+
+/* Chips helper */
+const state={ci:'전체',cb:'전체',cs:'전체'};
+function chips(id,list,key,cb){
+  const el=document.getElementById(id);
+  const all=['전체',...list,'★ 즐겨찾기'];
+  el.innerHTML=all.map(x=>`<button class="chip" type="button" data-v="${esc(x)}" aria-pressed="${state[key]===x}">${esc(x)}</button>`).join(' ');
+  el.onclick=e=>{const b=e.target.closest('.chip');if(!b)return;state[key]=b.dataset.v;chips(id,list,key,cb);cb()};
+}
+const isFav=k=>fav.includes(k);
+const starBtn=k=>`<button class="star" type="button" data-fav="${esc(k)}" aria-pressed="${isFav(k)}" aria-label="즐겨찾기">★</button>`;
+document.body.addEventListener('click',e=>{
+  const b=e.target.closest('[data-fav]');if(!b)return;
+  const k=b.dataset.fav;fav=isFav(k)?fav.filter(x=>x!==k):[...fav,k];save();
+  b.setAttribute('aria-pressed',isFav(k));
+});
+const match=(q,...f)=>!q||f.join(' ').toLowerCase().includes(q.toLowerCase());
+
+/* Items */
+const ICATS=['밀리터리','데님','워크','웨스턴','부츠·악세사리'];
+function renderItems(){
+  const q=document.getElementById('qi').value.trim(),c=state.ci;
+  const list=[...ITEMS].sort((a,b)=>(a.y||9999)-(b.y||9999)).filter(i=>(c==='전체'||i.c===c||(c==='★ 즐겨찾기'&&isFav('i:'+i.id)))&&match(q,i.n,i.k,i.c,i.e,i.o,i.s,i.p.join(' '),i.r.join(' ')));
+  document.getElementById('gi').innerHTML=list.length?list.map(i=>`<article class="card" id="it-${i.id}">${pic(i.id)}
+    <div class="meta"><span class="tag r">${esc(i.c)}</span><span class="tag">${esc(i.e)}</span><span>${esc(i.o)}</span></div>
+    <h3>${esc(i.k)} <span style="color:var(--mute);font-weight:500">${esc(i.n)}</span></h3>
+    <p>${esc(i.s)}</p><ul>${i.p.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    <p class="rep">복각: ${esc(i.r.join(', '))}</p>${used(i.r[0]+' '+i.n)}<div class="row"><span><a class="lnk" href="${P(i.n+' vintage')}" target="_blank" rel="noopener">핀터레스트 사진 ↗</a> &nbsp;<a class="lnk" href="${G(i.n).replace('search?','search?tbm=isch&')}" target="_blank" rel="noopener">이미지 검색 ↗</a></span>${starBtn('i:'+i.id)}</div></article>`).join(''):'<div class="empty">조건에 맞는 아이템이 없습니다.</div>';
+}
+chips('ci',ICATS,'ci',renderItems);
+document.getElementById('qi').oninput=renderItems;
+
+/* Brands */
+const BC=['한국','일본','중국','미국','영국·유럽·캐나다','데님','밀리터리','워크','부츠','웨스턴'];
+function renderBrands(){
+  const q=document.getElementById('qb').value.trim(),c=state.cb;
+  const ok=b=>{const [n,k,co,t]=b;if(c==='전체')return true;if(c==='★ 즐겨찾기')return isFav('b:'+n);if(c==='한국')return co==='KR';if(c==='중국')return co==='CN';if(c==='일본')return co==='JP';if(c==='미국')return co==='US';if(c==='영국·유럽·캐나다')return ['UK','FR','CA'].includes(co);return t.includes(c)||(c==='부츠'&&t.includes('부츠'))};
+  const list=BRANDS.filter(b=>ok(b)&&match(q,...b,CN[b[2]]));
+  document.getElementById('gb').innerHTML=list.length?list.map(([n,k,co,t,d])=>`<article class="card"><div class="bh">${patch(n,co)}<div class="meta"><span class="tag r">${esc(CN[co])}</span><span class="tag">${esc(t)}</span></div></div>
+    <h3>${esc(k)} <span style="color:var(--mute);font-weight:500">${esc(n)}</span></h3><p>${esc(d)}</p>${used(n)}
+    <div class="row"><span><a class="lnk" href="${G(n)}" target="_blank" rel="noopener">검색 ↗</a> &nbsp;<a class="lnk" href="${P(n)}" target="_blank" rel="noopener">핀터레스트 ↗</a></span>${starBtn('b:'+n)}</div></article>`).join(''):'<div class="empty">조건에 맞는 브랜드가 없습니다.</div>';
+}
+chips('cb',BC,'cb',renderBrands);
+document.getElementById('qb').oninput=renderBrands;
+
+/* Shops */
+function renderShops(){
+  const q=document.getElementById('qs').value.trim(),c=state.cs;
+  const all=[...SHOPS,...mine.map((s,i)=>({...s,mine:i}))];
+  const list=all.filter(s=>(c==='전체'||s.g===c||(c==='★ 즐겨찾기'&&isFav('s:'+s.n)))&&match(q,s.n,s.a,s.b,s.m,s.g));
+  document.getElementById('gs').innerHTML=list.length?SG.map(g=>{const L=list.filter(s=>s.g===g);if(!L.length)return'';
+    return `<div class="grp">${esc(g)}</div><div class="grid">${L.map(s=>`<article class="card">
+      <div class="meta"><span class="tag r">${esc(s.g)}</span>${s.a?`<span>${esc(s.a)}</span>`:''}</div>
+      <h3>${esc(s.n)}</h3>${s.b?`<p>${esc(s.b)}</p>`:''}${s.m?`<p class="rep">${esc(s.m)}</p>`:''}
+      <div class="row"><span>${s.u?`<a class="lnk" href="${esc(s.u)}" target="_blank" rel="noopener">사이트 ↗</a>`:''}${s.x?` &nbsp;<a class="lnk" href="${esc(s.x[1])}" target="_blank" rel="noopener">${esc(s.x[0])} ↗</a>`:''}${s.mine!==undefined?` <button class="del" type="button" data-del="${s.mine}">삭제</button>`:''}</span>${starBtn('s:'+s.n)}</div></article>`).join('')}</div>`}).join(''):'<div class="empty">조건에 맞는 판매처가 없습니다.</div>';
+}
+chips('cs',SG,'cs',renderShops);
+document.getElementById('qs').oninput=renderShops;
+document.getElementById('gs').addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(!d)return;mine.splice(+d.dataset.del,1);save();renderShops()});
+document.getElementById('addf').addEventListener('submit',e=>{e.preventDefault();
+  const v=id=>document.getElementById(id).value.trim();
+  const u=v('au');mine.push({g:v('ar'),n:v('an'),u:/^https?:\/\//.test(u)?u:'',a:'',b:v('ad'),m:'내가 추가한 샵'});save();e.target.reset();state.cs='전체';chips('cs',SG,'cs',renderShops);renderShops()});
+
+/* News */
+document.getElementById('gn').innerHTML=NEWS.map(([d,t,p,u])=>`<article class="nitem"><div class="ndate">${esc(d)}</div><div><h3><a class="lnk" style="color:inherit" href="${esc(u)}" target="_blank" rel="noopener">${esc(t)} ↗</a></h3><p>${esc(p)}</p></div></article>`).join('');
+
+/* Timeline */
+const LB=i=>i.k.replace(/ (플라이트|필드|덱|시어링|데님|트러커|피시테일|라이더) ?재킷| 파카/g,'').replace('리바이스 ','')+(i.ap?' ~':'');
+const tl=document.getElementById('tl'),box=document.getElementById('tlbox');
+function drawTL(){
+  const W=Math.max(box.clientWidth,820),L=40,R=40,y0=1880,y1=1970;
+  const xx=y=>L+(y-y0)/(y1-y0)*(W-L-R);const ln=[];let mx=0;
+  ITEMS.filter(i=>i.y).sort((a,b)=>a.y-b.y).forEach(i=>{const w=LB(i).length*13+20,cx=xx(i.y);let l=0;while(ln[l]!==undefined&&ln[l]>cx-w/2-6)l++;ln[l]=cx+w/2;mx=Math.max(mx,l)});
+  const H=Math.max(240,mx*36+130),base=H-48;tl.style.height=H+'px';box.style.height=H+'px';
+  tl.setAttribute('width',W);tl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const x=y=>L+(y-y0)/(y1-y0)*(W-L-R);
+  const pts=ITEMS.filter(i=>i.y).sort((a,b)=>a.y-b.y);
+  const lanes=[];let out='';
+  for(let d=y0;d<=y1;d+=10){out+=`<line x1="${x(d)}" x2="${x(d)}" y1="16" y2="${base}" stroke="var(--line)"/><text x="${x(d)}" y="${base+24}" text-anchor="middle" font-size="14" fill="var(--mute)">${d}</text>`}
+  out+=`<rect x="${x(1939)}" y="16" width="${x(1945)-x(1939)}" height="${base-16}" fill="var(--red)" opacity=".1"/><text x="${x(1942)}" y="${base+40}" text-anchor="middle" font-size="13" fill="var(--red)">2차대전</text>`;
+  out+=`<line x1="${L}" x2="${W-R}" y1="${base}" y2="${base}" stroke="var(--ink)" stroke-width="2"/>`;
+  pts.forEach(i=>{
+    const lb=LB(i);
+    const w=lb.length*13+20,cx=x(i.y);
+    let lane=0;while(lanes[lane]!==undefined&&lanes[lane]>cx-w/2-6)lane++;
+    lanes[lane]=cx+w/2;
+    const ly=base-36-lane*36;
+    out+=`<g class="pin" tabindex="0" data-go="${i.id}" role="link" aria-label="${esc(i.k)} ${i.y}"><line x1="${cx}" x2="${cx}" y1="${ly+14}" y2="${base}" stroke="var(--ink)" stroke-opacity=".35"/><circle cx="${cx}" cy="${base}" r="4" fill="var(--red)"/><rect x="${cx-w/2}" y="${ly-14}" width="${w}" height="28" rx="4" fill="var(--chip)" stroke="var(--line)"/><text class="lb" x="${cx}" y="${ly+5}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)" style="stroke:none">${esc(lb)}</text></g>`;
+  });
+  tl.innerHTML=out;
+}
+const tlro=new ResizeObserver(drawTL);tlro.observe(box);
+const go=id=>{location.hash='items';state.ci='전체';document.getElementById('qi').value='';chips('ci',ICATS,'ci',renderItems);renderItems();
+  setTimeout(()=>{const el=document.getElementById('it-'+id);if(el){el.scrollIntoView({block:'center'});el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit')}},60)};
+tl.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)go(g.dataset.go)});
+tl.addEventListener('keydown',e=>{const g=e.target.closest('[data-go]');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();go(g.dataset.go)}});
+
+/* Router */
+const SECS=['heritage','items','brands','shops','news'];
+function route(){
+  const h=location.hash.slice(1),cur=SECS.includes(h)?h:'heritage';
+  SECS.forEach(s=>document.getElementById('s-'+s).classList.toggle('on',s===cur));
+  document.querySelectorAll('#nav a').forEach(a=>{if(a.getAttribute('href')==='#'+cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  if(cur==='heritage')drawTL();
+}
+window.addEventListener('hashchange',route);
+document.querySelectorAll('[data-pic]').forEach(e=>{e.innerHTML=pic(e.dataset.pic)});
+const CNT={items:ITEMS.length,brands:BRANDS.length,shops:SHOPS.length};
+document.querySelectorAll('[data-count]').forEach(e=>e.textContent=CNT[e.dataset.count]);
+document.querySelectorAll('[data-cat]').forEach(b=>b.addEventListener('click',()=>{state.ci=b.dataset.cat;document.getElementById('qi').value='';chips('ci',ICATS,'ci',renderItems);renderItems();location.hash='items';document.querySelector('main').scrollIntoView()}));
+renderItems();renderBrands();renderShops();route();
+}
+</script>
+</body>
+</html>

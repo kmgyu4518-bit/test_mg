@@ -26,3 +26,13 @@
 - `app.js` 화면 그리기, 업로드, 저장
 
 빌드 과정이 없는 정적 사이트라 Vercel이나 GitHub Pages에 그대로 올리면 됩니다.
+
+---
+
+# 아메카지 아카이브 (`/amekaji`)
+
+아메카지·아메리칸 캐주얼·웨스턴 아이템, 브랜드, 판매처, 발매 소식을 정리한 개인용 페이지입니다.
+
+- 주소: https://kmgyu4518-bit.github.io/test_mg/amekaji/ (GitHub Pages 활성화 후)
+- 폰에서 열고 "홈 화면에 추가"를 누르면 앱 아이콘으로 쓸 수 있습니다 (`manifest.webmanifest`).
+- 즐겨찾기·내 샵 추가는 각자 브라우저에만 저장됩니다.
