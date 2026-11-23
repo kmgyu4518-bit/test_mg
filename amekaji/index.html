@@ -59,6 +59,11 @@ h2{font:800 clamp(30px,4vw,40px)/1.05 var(--disp);margin:0 0 4px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:8px}
 .pic{margin:-16px -16px 4px;height:150px;border-radius:8px 8px 0 0;background:linear-gradient(var(--chip),color-mix(in srgb,var(--chip),var(--ink) 6%));display:grid;place-items:center;border-bottom:1px solid var(--line)}
 .pic svg{height:128px;width:auto;filter:drop-shadow(0 4px 0 #0000001a)}
+.where{font-size:14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.bl{display:flex;flex-wrap:wrap;gap:6px}
+.wl{font:500 13px var(--body,'Noto Sans KR'),sans-serif;border:1.5px solid var(--red);color:var(--ink);background:none;border-radius:999px;padding:5px 10px;min-height:32px;cursor:pointer}
+.wl:hover{background:var(--red);color:#fff}
+.wx{font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 10px;color:var(--mute)}
 .used{font-size:14px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 10px}
 .bh{display:flex;align-items:center;gap:12px}
 .patch{width:64px;height:44px;flex:none}
@@ -111,6 +116,7 @@ footer{background:var(--od);color:var(--odink);font-size:14px}
 :root{color-scheme:light dark;--bg:light-dark(#f1ebe1,#121110);--panel:light-dark(#fbf8f2,#1c1a18);--ink:light-dark(#141210,#efe9df);--mute:light-dark(#6a625a,#a69d92);--line:light-dark(#ddd3c4,#34302b);--chip:light-dark(#e8dfd1,#2a2724);--red:#d4561d;--navbg:#141210;--navink:#f1ebe1;--od:#141210;--odink:#f1ebe1;--disp:"Anton",sans-serif}
 nav{border-bottom-color:#2a2724}
 h2{font-weight:400;text-transform:uppercase;letter-spacing:.01em}
+.heroA[hidden],.edit[hidden]{display:none}
 .heroA{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);background:#141210;color:#f1ebe1}
 .ha-txt{padding:clamp(28px,5vw,72px) max(5vw,16px);display:flex;flex-direction:column;justify-content:space-between;gap:28px}
 .heroA h1{font:400 clamp(64px,10.5vw,148px)/.88 "Anton",sans-serif;margin:0;text-transform:uppercase}
@@ -135,11 +141,11 @@ h2{font-weight:400;text-transform:uppercase;letter-spacing:.01em}
 <body>
 <nav aria-label="챕터"><div class="navw"><a class="logo" href="#heritage">AMEKAJI ARCHIVE</a><div id="nav">
 <a href="#heritage">1 Heritage</a><a href="#items">2 Items</a><a href="#brands">3 Brands</a><a href="#shops">4 Shops</a><a href="#news">5 News</a></div></div></nav>
-<section class="heroA"><div class="ha-txt"><h1>Amekaji<br>Archive.</h1>
+<section class="heroA top-only"><div class="ha-txt"><h1>Amekaji<br>Archive.</h1>
 <p class="ser">Military, denim<br>&amp; western.</p>
 <div class="stats"><span><b data-count="items"></b>아이템</span><span><b data-count="brands"></b>브랜드</span><span><b data-count="shops"></b>판매처</span></div></div>
 <div class="ha-pic"><div class="hp" data-pic="a2"></div><span class="ha-cap">Type A-2, 1931</span></div></section>
-<section class="band edit"><div class="wrap"><h2>The Edit.</h2><div class="cats"><button class="cat a" type="button" data-cat="밀리터리"><div class="hp" data-pic="ma1"></div><span class="cl">Military</span><span class="ck">밀리터리</span></button><button class="cat a" type="button" data-cat="데님"><div class="hp" data-pic="t3"></div><span class="cl">Denim</span><span class="ck">데님</span></button><button class="cat a" type="button" data-cat="웨스턴"><div class="hp" data-pic="westsh"></div><span class="cl">Western</span><span class="ck">웨스턴</span></button><button class="cat a" type="button" data-cat="부츠·악세사리"><div class="hp" data-pic="875"></div><span class="cl">Boots</span><span class="ck">부츠·악세사리</span></button></div></div></section>
+<section class="band edit top-only"><div class="wrap"><h2>The Edit.</h2><div class="cats"><button class="cat a" type="button" data-cat="밀리터리"><div class="hp" data-pic="ma1"></div><span class="cl">Military</span><span class="ck">밀리터리</span></button><button class="cat a" type="button" data-cat="데님"><div class="hp" data-pic="t3"></div><span class="cl">Denim</span><span class="ck">데님</span></button><button class="cat a" type="button" data-cat="웨스턴"><div class="hp" data-pic="westsh"></div><span class="cl">Western</span><span class="ck">웨스턴</span></button><button class="cat a" type="button" data-cat="부츠·악세사리"><div class="hp" data-pic="875"></div><span class="cl">Boots</span><span class="ck">부츠·악세사리</span></button></div></div></section>
 
 <main class="band"><div class="wrap">
 
@@ -191,7 +197,7 @@ h2{font-weight:400;text-transform:uppercase;letter-spacing:.01em}
 
 <section id="s-news" class="sec">
   <h2>News</h2>
-  <p class="lead">기준일 2026.11.22 · 최근 확인한 소식이며 최신 날짜가 위에 있습니다.</p>
+  <p class="lead">기준일 2026.11.23. 최근 확인한 소식이며 최신 날짜가 위에 있습니다.</p>
   <div class="news" id="gn"></div>
   <p class="note">이 페이지는 실시간으로 갱신되지 않습니다. 새 소식은 요청하시면 확인해서 추가합니다.</p>
 </section>
@@ -305,7 +311,7 @@ const BRANDS=[
 ['Uniform Bridge','유니폼브릿지','KR','밀리터리·아웃도어','클래식·빈티지·밀리터리 기반의 합리적 가격대 브랜드.'],
 ['Espionage','에스피오나지','KR','밀리터리','밀리터리·아웃도어 기반. MA-1, M-65, N-1 재해석. 브론슨 등 입점.'],
 ['Khakis2000','카키스','KR','워크·밀리터리','편집숍에서 시작해 자체 제작으로 확장. 헤비 스웨트, 피시테일 파카 등.'],
-['Prismworks','프리즘웍스','KR','입문용 아메카지','밀리터리·라이딩·워크웨어를 합리적 가격에 전개.'],
+['FrizmWORKS','프리즘웍스','KR','밀리터리·워크','2010년 서울 설립. 밀리터리·워크웨어 아카이브를 현대적으로 재해석. 해외 편집숍에도 입점.'],
 ['Acapella Clothing','아카펠라 클로딩','KR','가죽','국내 복각 가죽 재킷 브랜드. 직영 공장 생산.'],
 ['Bronson MFG','브론슨','CN','밀리터리·데님','중국 미군 빈티지 복각 브랜드. 1936 셀비지 진 등 저가 복각으로 유명.'],
 ['Red Cloud & Co','레드클라우드','CN','데님','선양 기반. 신장 면 셀비지와 구형 미싱 사용. R423xx(1947 501 기반).'],
@@ -316,20 +322,65 @@ const BRANDS=[
 ['Cushman','쿠쉬맨','JP','워크·스포츠','합리적 가격의 아메카지 기본 아이템.'],
 ['Houston','휴스턴','JP','밀리터리','합리적 가격의 밀리터리 복각. N-1 등.'],
 ['Engineered Garments','엔지니어드 가먼츠','US','워크·밀리터리','뉴욕. 미국 워크·밀리터리 원형의 재해석.'],
-['Alpha Industries','알파 인더스트리','US','밀리터리','1959년 창업. 미군에 M-65 등 납품.']
+['Alpha Industries','알파 인더스트리','US','밀리터리','1959년 창업. 미군에 M-65 등 납품.'],
+['Elmud','엘무드','KR','컨템포러리 아메카지','테일러링과 워크웨어를 섞은 실루엣.'],
+['Covernat','커버낫','KR','입문용 캐주얼','대중적인 아메리칸 캐주얼.'],
+['Demil','데밀','KR','데님','합리적 가격대 데님. 조스개러지 취급.'],
+['BEAMS PLUS','빔즈 플러스','JP','아이비·워크','아이비, 아웃도어, 밀리터리, 워크웨어를 정갈하게 재해석.'],
+['Workers','워커스','JP','워크셔츠','오카야마. 워크셔츠와 치노.'],
+['Tailor Toyo','테일러 토요','JP','스카잔','토요 엔터프라이즈의 수버니어 재킷(스카잔) 라인.'],
+['Dubble Works','더블웍스','JP','캐주얼','웨어하우스 계열의 데일리 라인.'],
+['John Gluckow','존 글럭코우','JP','빈티지 워크','1900년대 초 미국 작업복 복각. 제라도 계열.'],
+['Gladhand & Co','글래드핸드','JP','빈티지 캐주얼','1950년대 무드. 자매 브랜드 Weirdo.'],
+['Weirdo','위어도','JP','프린트 셔츠','글래드핸드 계열. 아트 프린트 셔츠.'],
+['Radiall','라디알','JP','로우라이더','LA 로우라이더 문화 기반.'],
+['Calee','캘리','JP','바이커·웨스턴','바이커와 웨스턴 무드 캐주얼.'],
+['Bluco','블루코','JP','워크웨어','합리적 가격의 워크 팬츠·셔츠.'],
+['Dry Bones','드라이본즈','JP','빈티지 캐주얼','빈티지 아메리칸 캐주얼.'],
+['Two Moon','투문','JP','빈티지 워크','빈티지 워크·아웃도어.'],
+['Anachronorm','아나크로놈','JP','빈티지 워크','빈티지 무드 워크·페인터 팬츠.'],
+['Addict Clothes','어딕트 클로즈','JP','가죽','바이커 가죽 재킷.'],
+['Remi Relief','레미 릴리프','JP','빈티지 가공','빈티지 워싱·가공 캐주얼.'],
+['Barns Outfitters','반스 아웃피터스','JP','스웨트','빈티지 스웨트·티셔츠.'],
+['Japan Blue Jeans','재팬블루진','JP','데님','오카야마 고지마. 모모타로와 같은 재팬블루 그룹.'],
+['Westoveralls','웨스트오버롤즈','JP','데님','데님과 오버롤.'],
+['Orgueil','오르게이유','JP','빈티지 유러피안','빈티지 유러피안 무드. 조스개러지 취급.'],
+['Clinch','클린치','JP','부츠','도쿄 수제 워크·엔지니어 부츠.'],
+['John Lofgren Bootmaker','존 로프그렌','JP','부츠','일본 생산 엔지니어·워크 부츠.'],
+['Vasco','바스코','JP','가죽','가죽 신발·가방.'],
+['Moonstar','문스타','JP','스니커즈','후쿠오카 구루메. 벌커나이즈드 스니커즈.'],
+['Bryceland\'s','브라이슬랜즈','HK','클래식·웨스턴','홍콩·도쿄. 클래식 테일러링과 웨스턴.'],
+['Tuf-Nut','터프넛','US','워크','오래된 미국 워크웨어 이름을 되살린 라인.'],
+['Velva Sheen','벨바 쉰','US','티셔츠','미국 빈티지 티셔츠·스웨트.'],
+['Yuketen','유케텐','US','모카신','모카신·부츠.'],
+['Willis & Geiger','윌리스 앤 가이거','US','아웃도어','탐험·사파리 의류.'],
+['Dehen 1920','디헨 1920','US','바시티','포틀랜드. 바시티 재킷·울 아우터.'],
+['Rocky Mountain Featherbed','록키마운틴 페더베드','US','다운·웨스턴','웨스턴 요크 다운 베스트.'],
+['Big Yank','빅얀크','US','워크셔츠','빈티지 워크셔츠.'],
+['Dickies','디키즈','US','워크','1922년 창업. 874 워크 팬츠.'],
+['Ben Davis','벤 데이비스','US','워크','1935년 창업. 고릴라 로고 워크웨어.'],
+['Woolrich','울리치','US','아웃도어','1830년 창업. 울 체크 셔츠·파카.'],
+['L.L.Bean','엘엘빈','US','아웃도어','1912년 창업. 빈 부츠.'],
+['Alden','알든','US','구두·부츠','1884년 창업. 코도반 부츠.'],
+['Russell Moccasin','러셀 모카신','US','부츠','1898년 창업. 수제 모카신 부츠.'],
+['Justin Boots','저스틴 부츠','US','웨스턴 부츠','1879년 창업. 카우보이 부츠.'],
+['Barbour','바버','UK','아웃도어','1894년 창업. 왁스 재킷.'],
+['Aero Leather','에어로 레더','UK','가죽','스코틀랜드. 가죽 재킷.'],
+['Private White V.C.','프라이빗 화이트','UK','아우터','맨체스터 생산 아우터.'],
+['Merz b. Schwanen','메르츠 비 슈바넨','DE','루프휠','독일. 루프휠 저지 티셔츠.']
 ];
-const CN={KR:'한국',JP:'일본',CN:'중국',US:'미국',UK:'영국',FR:'프랑스',CA:'캐나다'};
+const CN={KR:'한국',JP:'일본',CN:'중국',US:'미국',UK:'영국',FR:'프랑스',CA:'캐나다',DE:'독일',HK:'홍콩'};
 
 const SHOPS=[
-{g:'국내',n:'세미베이스먼트 제너럴 스토어',u:'https://semibasement.com/',a:'서울 강남구 신사동 (지하 1층)',b:'Jelado, Samurai Jeans, Trophy Clothing, Rainbow Country, Sugar Cane, Cushman, Raggy Clothing',m:'회기동 빈티지 숍 세미베이스먼트(semibasement.co.kr)와는 다른 곳입니다.'},
-{g:'국내',n:'조스개러지',u:'https://unipair.com/category/joes-garage/257/',a:'서울 강남구 도산대로45길 18-10',b:'Toys McCoy, Warehouse, Pherrow\'s, Studio D\'Artisan, Boncoura',m:'온라인은 유니페어 몰 안에서 운영. 인스타 @joesgarage_clothingstore'},
-{g:'국내',n:'랜덤워크',u:'https://www.randomwalk.co.kr/',a:'서울 강남구 언주로164길 40 (도산공원)',b:'Anatomica, Warehouse, orSlow, TCB Jeans, Tellason, Nigel Cabourn, Westoveralls',m:'평일 11:00~20:00, 주말 12:30~20:00'},
-{g:'국내',n:'모드맨',u:'https://mode-man.com/',a:'홍대 플래그십, 더현대 매장',b:'Warehouse, Buzz Rickson\'s, Sugar Cane, Full Count, The Flat Head, Pherrow\'s, Viberg, Post O\'Alls, Red Wing',m:'주간 입고 예정 브랜드를 스케줄 게시판에 공개',x:['입고 스케줄','https://mode-man.com/category/schedule/851/']},
-{g:'일본',n:'히노야 (Hinoya)',u:'https://hinoya.shop/en/',a:'도쿄 우에노 아메요코',b:'Pure Blue Japan, Oni Denim, Boncoura, Denime, Momotaro',m:'해외 배송 FedEx·DHL. 주말·일본 공휴일 주문은 다음 영업일 출고'},
+{g:'국내',n:'세미베이스먼트 제너럴 스토어',bl:['Bird Note','Black Sign','Bluco','Calee','Churchill Gloves','Cushman','Dry Bones','Gladhand & Co','Jelado','John Gluckow','John Lofgren Bootmaker','Merz b. Schwanen','Pherrow\'s','Radiall','Raggy Clothing','Rainbow Country','Rats','Samurai Jeans','Sugar Cane','Tailor Toyo','The Flat Head','Toys McCoy','Trophy Clothing','Tuf-Nut','Two Moon','Vasco','Warehouse','Weirdo','Wesco','Whitesville'],u:'https://semibasement.com/',a:'서울 강남구 신사동 (지하 1층)',b:'Jelado, Samurai Jeans, Trophy Clothing, Rainbow Country, Sugar Cane, Cushman, Raggy Clothing',m:'회기동 빈티지 숍 세미베이스먼트(semibasement.co.kr)와는 다른 곳입니다.'},
+{g:'국내',n:'조스개러지',bl:['Toys McCoy','Warehouse','Pherrow\'s','Studio D\'Artisan','Orgueil','Boncoura','Anachronorm','Denime','Eastlogue','Full Count','Gladhand & Co','John Gluckow','Demil','Schott','Moonstar'],u:'https://unipair.com/category/joes-garage/257/',a:'서울 강남구 도산대로45길 18-10',b:'Toys McCoy, Warehouse, Pherrow\'s, Studio D\'Artisan, Boncoura',m:'온라인은 유니페어 몰 안에서 운영. 인스타 @joesgarage_clothingstore'},
+{g:'국내',n:'랜덤워크',bl:['Anatomica','Aero Leather','Big Yank','Bryceland\'s','Merz b. Schwanen','Moonstar','Nigel Cabourn','orSlow','Private White V.C.','TCB Jeans','Warehouse','Westoveralls'],u:'https://www.randomwalk.co.kr/',a:'서울 강남구 언주로164길 40 (도산공원)',b:'Anatomica, Warehouse, orSlow, TCB Jeans, Tellason, Nigel Cabourn, Westoveralls',m:'평일 11:00~20:00, 주말 12:30~20:00'},
+{g:'국내',n:'모드맨',bl:['Full Count','Buzz Rickson\'s','Warehouse','Sugar Cane','The Flat Head','Trophy Clothing','Pherrow\'s','Whitesville','Tailor Toyo','Viberg','Yuketen','Willis & Geiger','Wonder Looper','Velva Sheen','Tuf-Nut','Weirdo','Gladhand & Co','Black Sign','Dehen 1920','Addict Clothes','Anachronorm','Dubble Works','Nigel Cabourn','Remi Relief','Anatomica','Barns Outfitters','Big Yank','Colimbo','Japan Blue Jeans','John Gluckow','Momotaro Jeans','orSlow','Rocky Mountain Featherbed','Clinch','Post O\'Alls','Red Wing'],u:'https://mode-man.com/',a:'홍대 플래그십, 더현대 매장',b:'Warehouse, Buzz Rickson\'s, Sugar Cane, Full Count, The Flat Head, Pherrow\'s, Viberg, Post O\'Alls, Red Wing',m:'주간 입고 예정 브랜드를 스케줄 게시판에 공개',x:['입고 스케줄','https://mode-man.com/category/schedule/851/']},
+{g:'일본',n:'히노야 (Hinoya)',bl:['Pure Blue Japan','Oni Denim','Boncoura','Denime','Momotaro Jeans'],u:'https://hinoya.shop/en/',a:'도쿄 우에노 아메요코',b:'Pure Blue Japan, Oni Denim, Boncoura, Denime, Momotaro',m:'해외 배송 FedEx·DHL. 주말·일본 공휴일 주문은 다음 영업일 출고'},
 {g:'일본',n:'오카야마 데님',u:'https://www.okayamadenim.com/',a:'도쿄 메구로 아오바다이',b:'일본 데님·헤비 티셔츠 셀렉트',m:'150달러 이상 해외 특급배송 무료, 미만은 25달러'},
-{g:'미국',n:'Self Edge',u:'https://www.selfedge.com/',a:'샌프란시스코, 뉴욕, LA, 포틀랜드, 멕시코, 오스틴',b:'Iron Heart, Pure Blue Japan, Samurai, Strike Gold',m:'2006년 설립. 별주 협업 진이 많음'},
+{g:'미국',n:'Self Edge',bl:['Iron Heart','Pure Blue Japan','Samurai Jeans'],u:'https://www.selfedge.com/',a:'샌프란시스코, 뉴욕, LA, 포틀랜드, 멕시코, 오스틴',b:'Iron Heart, Pure Blue Japan, Samurai, Strike Gold',m:'2006년 설립. 별주 협업 진이 많음'},
 {g:'미국',n:'Standard & Strange',u:'https://standardandstrange.com/',a:'버클리, 산타페, 뉴욕',b:'일본 셀비지 데님, 부츠, 아메리카나 워크웨어',m:'2012년 오클랜드에서 시작'},
-{g:'영국',n:'Clutch Cafe',u:'https://clutchcafe.com/',a:'런던',b:'일본 아메카지 브랜드 (Buzz Rickson\'s, Real McCoy\'s 등)',m:'일본 잡지 Clutch와 연계된 매장'},
+{g:'영국',n:'Clutch Cafe',bl:['Buzz Rickson\'s','The Real McCoy\'s'],u:'https://clutchcafe.com/',a:'런던',b:'일본 아메카지 브랜드 (Buzz Rickson\'s, Real McCoy\'s 등)',m:'일본 잡지 Clutch와 연계된 매장'},
 {g:'영국',n:'Rivet & Hide',u:'https://rivetandhide.com/',a:'런던, 맨체스터',b:'희소 데님과 일본 브랜드',m:''},
 {g:'중고·리셀',n:'KREAM',u:'https://kream.co.kr/brands/buzz-ricksons',a:'온라인',b:'버즈릭슨 등 브랜드관',m:'새 상품 리셀 시세 확인용'},
 {g:'중고·리셀',n:'번개장터',u:'https://m.bunjang.co.kr/search/products?q=%EB%A6%AC%EC%96%BC%EB%A7%A5%EC%BD%94%EC%9D%B4',a:'온라인',b:'중고 직거래',m:'링크는 리얼맥코이 검색 결과'},
@@ -339,6 +390,7 @@ const SG=['국내','일본','미국','영국','중고·리셀'];
 
 const NEWS=[
 ['2026.11.19','Heddels 블랙프라이데이 세일 정리','진, 부츠, 셔츠, 재킷 할인을 매일 갱신하는 목록. 직구 타이밍 확인용.','https://www.heddels.com/sale-finder/shortlist/'],
+['2026.11.18','Palomo 1953 핸드소운 컬렉션','엘살바도르 수제 신발 라인. 모카신 구조 로퍼, 보트슈, 호윈 크롬엑셀 캠프 러그, 부츠형 캠프 부티 4종.','https://www.heddels.com/2026/11/handmade-in-el-salvador-palomo-1953s-handsewn-collection/'],
 ['2026.11.16','아이언하트 FW26 N-1 덱 재킷 입고','버즈릭슨, 리얼맥코이, 휴스턴 N-1과 가격·판매처 비교. 리얼맥코이 네이비 N-1(MJ21105)은 초기형 고증으로 소개.','https://denimhunters.com/n1-deck-jackets/'],
 ['2026.11.12','Palomo 1953 Ernest & Edmund 부츠','엘살바도르 수제 부츠 신작.','https://www.heddels.com/news/new-releases/'],
 ['2026.11.11','Franklin & Poe × 3sixteen 17oz 넵 셀비지 진','10주년 협업 데님.','https://www.heddels.com/news/new-releases/'],
@@ -440,9 +492,22 @@ function pic(id){
   const body=v[0]==='t'?top(v[1]):v[0]==='p'?pants(v[1]):v[0]==='b'?boot(v[1]):misc[v[1]](v[2]);
   return `<div class="pic"><svg viewBox="0 0 120 112" aria-hidden="true">${body}</svg></div>`;
 }
-const CC={KR:'#1f6f5c',CN:'#9a6b12',JP:'#b8281c',US:'#2f4a78',UK:'#3d4a28',FR:'#5a3a26',CA:'#7a4a28'};
+const CC={DE:'#444',HK:'#6a3d7a',KR:'#1f6f5c',CN:'#9a6b12',JP:'#b8281c',US:'#2f4a78',UK:'#3d4a28',FR:'#5a3a26',CA:'#7a4a28'};
 const patch=(n,co)=>{const ini=n.replace(/^The /,'').replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
   return `<svg class="patch" viewBox="0 0 64 44" aria-hidden="true"><rect x="2" y="2" width="60" height="40" rx="6" fill="${CC[co]}"/><rect x="6" y="6" width="52" height="32" rx="4" fill="none" stroke="#f4efe3" stroke-width="1.4" stroke-dasharray="3 2.5"/><text x="32" y="29" text-anchor="middle" style="font-family:var(--disp)" font-weight="800" font-size="20" fill="#f4efe3">${esc(ini)}</text></svg>`};
+
+/* Brand <-> shop links */
+const nk=x=>x.toLowerCase().replace(/^the /,'').replace(/[^a-z0-9]/g,'').replace(/co$/,'');
+const BN={};BRANDS.forEach(b=>BN[nk(b[0])]=b[0]);
+const WHERE={};SHOPS.forEach(sh=>(sh.bl||[]).forEach(x=>{const k=nk(x);(WHERE[k]=WHERE[k]||[]).push(sh)}));
+const FL={'국내':'🇰🇷','일본':'🇯🇵','미국':'🇺🇸','영국':'🇬🇧','중고·리셀':''};
+const whereHtml=n=>{const L=WHERE[nk(n)];return L?'<div class="where">판매처: '+L.map(sh=>`<button type="button" class="wl" data-shop="${esc(sh.n)}">${FL[sh.g]||''} ${esc(sh.n)}</button>`).join('')+'</div>':''};
+const blHtml=sh=>sh.bl?'<div class="bl">'+sh.bl.map(x=>BN[nk(x)]?`<button type="button" class="wl" data-brand="${esc(BN[nk(x)])}">${esc(x)}</button>`:`<span class="wx">${esc(x)}</span>`).join('')+'</div>':'';
+document.body.addEventListener('click',e=>{
+  const a=e.target.closest('[data-shop]'),b=e.target.closest('[data-brand]');
+  if(a){state.cs='전체';chips('cs',SG,'cs',renderShops);document.getElementById('qs').value=a.dataset.shop;renderShops();location.hash='shops';setTimeout(()=>document.getElementById('qs').scrollIntoView({block:'start'}),50)}
+  if(b){state.cb='전체';chips('cb',BC,'cb',renderBrands);document.getElementById('qb').value=b.dataset.brand;renderBrands();location.hash='brands';setTimeout(()=>document.getElementById('qb').scrollIntoView({block:'start'}),50)}
+});
 
 /* Glossary */
 document.getElementById('gloss').innerHTML=GLOSS.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join('');
@@ -479,13 +544,13 @@ chips('ci',ICATS,'ci',renderItems);
 document.getElementById('qi').oninput=renderItems;
 
 /* Brands */
-const BC=['한국','일본','중국','미국','영국·유럽·캐나다','데님','밀리터리','워크','부츠','웨스턴'];
+const BC=['한국','일본','중국','미국','유럽·기타','데님','밀리터리','워크','부츠','웨스턴'];
 function renderBrands(){
   const q=document.getElementById('qb').value.trim(),c=state.cb;
-  const ok=b=>{const [n,k,co,t]=b;if(c==='전체')return true;if(c==='★ 즐겨찾기')return isFav('b:'+n);if(c==='한국')return co==='KR';if(c==='중국')return co==='CN';if(c==='일본')return co==='JP';if(c==='미국')return co==='US';if(c==='영국·유럽·캐나다')return ['UK','FR','CA'].includes(co);return t.includes(c)||(c==='부츠'&&t.includes('부츠'))};
+  const ok=b=>{const [n,k,co,t]=b;if(c==='전체')return true;if(c==='★ 즐겨찾기')return isFav('b:'+n);if(c==='한국')return co==='KR';if(c==='중국')return co==='CN';if(c==='일본')return co==='JP';if(c==='미국')return co==='US';if(c==='유럽·기타')return ['UK','FR','CA','DE','HK'].includes(co);return t.includes(c)||(c==='부츠'&&t.includes('부츠'))};
   const list=BRANDS.filter(b=>ok(b)&&match(q,...b,CN[b[2]]));
   document.getElementById('gb').innerHTML=list.length?list.map(([n,k,co,t,d])=>`<article class="card"><div class="bh">${patch(n,co)}<div class="meta"><span class="tag r">${esc(CN[co])}</span><span class="tag">${esc(t)}</span></div></div>
-    <h3>${esc(k)} <span style="color:var(--mute);font-weight:500">${esc(n)}</span></h3><p>${esc(d)}</p>${used(n)}
+    <h3>${esc(k)} <span style="color:var(--mute);font-weight:500">${esc(n)}</span></h3><p>${esc(d)}</p>${whereHtml(n)}${used(n)}
     <div class="row"><span><a class="lnk" href="${G(n)}" target="_blank" rel="noopener">검색 ↗</a> &nbsp;<a class="lnk" href="${P(n)}" target="_blank" rel="noopener">핀터레스트 ↗</a></span>${starBtn('b:'+n)}</div></article>`).join(''):'<div class="empty">조건에 맞는 브랜드가 없습니다.</div>';
 }
 chips('cb',BC,'cb',renderBrands);
@@ -495,11 +560,11 @@ document.getElementById('qb').oninput=renderBrands;
 function renderShops(){
   const q=document.getElementById('qs').value.trim(),c=state.cs;
   const all=[...SHOPS,...mine.map((s,i)=>({...s,mine:i}))];
-  const list=all.filter(s=>(c==='전체'||s.g===c||(c==='★ 즐겨찾기'&&isFav('s:'+s.n)))&&match(q,s.n,s.a,s.b,s.m,s.g));
+  const list=all.filter(s=>(c==='전체'||s.g===c||(c==='★ 즐겨찾기'&&isFav('s:'+s.n)))&&match(q,s.n,s.a,s.b,s.m,s.g,(s.bl||[]).join(' ')));
   document.getElementById('gs').innerHTML=list.length?SG.map(g=>{const L=list.filter(s=>s.g===g);if(!L.length)return'';
     return `<div class="grp">${esc(g)}</div><div class="grid">${L.map(s=>`<article class="card">
       <div class="meta"><span class="tag r">${esc(s.g)}</span>${s.a?`<span>${esc(s.a)}</span>`:''}</div>
-      <h3>${esc(s.n)}</h3>${s.b?`<p>${esc(s.b)}</p>`:''}${s.m?`<p class="rep">${esc(s.m)}</p>`:''}
+      <h3>${esc(s.n)}</h3>${s.bl?blHtml(s):(s.b?`<p>${esc(s.b)}</p>`:'')}${s.m?`<p class="rep">${esc(s.m)}</p>`:''}
       <div class="row"><span>${s.u?`<a class="lnk" href="${esc(s.u)}" target="_blank" rel="noopener">사이트 ↗</a>`:''}${s.x?` &nbsp;<a class="lnk" href="${esc(s.x[1])}" target="_blank" rel="noopener">${esc(s.x[0])} ↗</a>`:''}${s.mine!==undefined?` <button class="del" type="button" data-del="${s.mine}">삭제</button>`:''}</span>${starBtn('s:'+s.n)}</div></article>`).join('')}</div>`}).join(''):'<div class="empty">조건에 맞는 판매처가 없습니다.</div>';
 }
 chips('cs',SG,'cs',renderShops);
@@ -549,6 +614,7 @@ function route(){
   const h=location.hash.slice(1),cur=SECS.includes(h)?h:'heritage';
   SECS.forEach(s=>document.getElementById('s-'+s).classList.toggle('on',s===cur));
   document.querySelectorAll('#nav a').forEach(a=>{if(a.getAttribute('href')==='#'+cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  document.querySelectorAll('.top-only').forEach(el=>el.hidden=!(cur==='heritage'||cur==='items'));
   if(cur==='heritage')drawTL();
 }
 window.addEventListener('hashchange',route);
